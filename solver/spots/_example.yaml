@@ -1,0 +1,17 @@
+id: 6max-srp-sb-vs-bb-a72r-cbet
+title: "SB opens 2.5x, BB calls, flop A72 rainbow — SB c-bet decision"
+stacks_bb: 97.5
+pot_bb: 5.5
+board: "As 7h 2c"
+# Ranges are Pio-style range strings (A-K wheel format).
+# Replace these with your own verified ranges before running.
+oop_range: "22+,A2s+,K2s+,Q2s+,J4s+,T6s+,96s+,86s+,75s+,65s,54s,AJo+,KQo"
+ip_range:  "22+,A2s+,K5s+,Q8s+,J9s+,T8s+,97s+,86s+,76s,65s,A9o+,KJo+,QJo"
+bet_sizes:
+  flop: [0.33, 0.75]
+  turn: [0.5, 1.0]
+  river: [0.5, 1.5]
+allin_threshold: 0.67
+raise_limit: 3
+iterations: 200
+use_isomorphism: true

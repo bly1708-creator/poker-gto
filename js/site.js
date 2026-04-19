@@ -248,11 +248,55 @@
     });
   }
 
+  // ---------- Provenance banner ----------
+  function setupProvenanceBanner() {
+    if (document.body.classList.contains('no-provenance')) return;
+    if (/methodology\.html$/.test(location.pathname)) return;
+    var dismissed = false;
+    try { dismissed = localStorage.getItem('provenance-dismissed') === '1'; } catch (e) {}
+    if (dismissed) return;
+    var banner = document.createElement('div');
+    banner.className = 'provenance-banner';
+    banner.innerHTML =
+      '<span>Educational illustrations — charts and frequencies on this site are not solver-verified. ' +
+      '<a href="' + ROOT + 'methodology.html">How to verify &rarr;</a></span>' +
+      '<button aria-label="Dismiss">&times;</button>';
+    banner.querySelector('button').addEventListener('click', function () {
+      banner.remove();
+      try { localStorage.setItem('provenance-dismissed', '1'); } catch (e) {}
+    });
+    document.body.insertBefore(banner, document.body.firstChild);
+  }
+
+  // ---------- Methodology link in nav ----------
+  function addMethodologyLink() {
+    var nav = document.querySelector('header.site nav.site');
+    if (!nav || nav.querySelector('a[data-methodology-link]')) return;
+    var a = document.createElement('a');
+    a.href = ROOT + 'methodology.html';
+    a.textContent = 'Methodology';
+    a.setAttribute('data-methodology-link', '');
+    if (/methodology\.html$/.test(location.pathname)) a.classList.add('active');
+    nav.appendChild(a);
+  }
+
+  // ---------- Lazy-load range-loader.js if page uses JSON ranges ----------
+  function maybeLoadRangeLoader() {
+    if (!document.querySelector('.range-grid[data-range-src]')) return;
+    var s = document.createElement('script');
+    s.src = ROOT + 'js/range-loader.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+
   // ---------- Boot ----------
   document.addEventListener('DOMContentLoaded', function () {
     setupNav();
+    addMethodologyLink();
+    setupProvenanceBanner();
     setupLessonExtras();
     decorateLessonLists();
     setupGlossarySearch();
+    maybeLoadRangeLoader();
   });
 })();

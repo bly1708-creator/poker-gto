@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Methodology — Solver School</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="no-provenance">
+<header class="site">
+  <div class="container row">
+    <a href="index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="course/index.html">Course</a>
+      <a href="course/6max/index.html">6-max</a>
+      <a href="course/heads-up/index.html">Heads-Up</a>
+      <a href="course/tournaments/index.html">Tournaments</a>
+      <a href="glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Home / Methodology</div>
+    <h1>Methodology &amp; Data Provenance</h1>
+    <p class="subtitle">
+      How the content on this site is produced, what's verified, and how to
+      check anything you're unsure about.
+    </p>
+
+    <h2>TL;DR</h2>
+    <p>
+      Most charts and numeric frequencies currently on this site are
+      <strong>educational illustrations</strong>, not solver-verified outputs.
+      They capture the correct qualitative ideas (which positions open wider,
+      which hands are 3-bet bluff candidates, how frequency scales with
+      position), but specific percentages and individual cell classifications
+      have not been cross-checked against a real GTO solver run.
+    </p>
+
+    <h2>Data provenance tiers</h2>
+    <p>As verified data is added, individual charts and claims will carry one of three badges:</p>
+    <ul>
+      <li><span class="provenance-badge verified">Solver-verified</span> Generated from a documented solver run (TexasSolver, PioSolver, etc.) with input parameters available in the site repo.</li>
+      <li><span class="provenance-badge published">Published</span> Taken from a third-party published source (GTO Wizard, Upswing charts, a named book) with citation.</li>
+      <li><span class="provenance-badge unverified">Unverified</span> Educational illustration only — directionally correct but not solver-checked.</li>
+    </ul>
+    <p>
+      Any chart or frequency without an explicit badge should be treated as
+      <strong>unverified</strong> by default.
+    </p>
+
+    <h2>How to verify a chart yourself</h2>
+    <ol>
+      <li>
+        <strong>Free preflop:</strong>
+        <a href="https://gtowizard.com" target="_blank" rel="noopener">GTO Wizard</a>
+        exposes a free tier with solver-verified preflop ranges for common
+        stack depths. Compare cell-by-cell against the chart you see here.
+      </li>
+      <li>
+        <strong>Run a solver:</strong>
+        <a href="https://github.com/bupticybee/TexasSolver" target="_blank" rel="noopener">TexasSolver</a>
+        is free and open source. Feed it the same spot (stacks, positions, bet
+        sizes, ranges) and compare frequencies. Differences larger than a few
+        percent are worth investigating.
+      </li>
+      <li>
+        <strong>Cross-read known authorities:</strong> <em>Modern Poker Theory</em>
+        (Acevedo) for frameworks; <em>Play Optimal Poker</em> (Saulsberry) for
+        accessible single-spot reasoning.
+      </li>
+    </ol>
+
+    <h2>Contributing verified data</h2>
+    <p>
+      This site's data layer lives in <code>data/ranges/*.json</code>. Each
+      file follows the schema below. If you solve a spot yourself (or export a
+      range from GTO Wizard), drop it in and the site will render it with the
+      appropriate provenance badge.
+    </p>
+
+    <pre style="background:var(--panel-2);padding:14px;border-radius:8px;overflow-x:auto;font-size:13px;">{
+  "id": "6max-utg-rfi-100bb",
+  "title": "6-max UTG RFI (100bb)",
+  "source": {
+    "tier": "verified",           // "verified" | "published" | "unverified"
+    "solver": "TexasSolver 0.2.0", // required if tier=verified
+    "params": {
+      "stacks_bb": 100,
+      "rake_pct": 5,
+      "rake_cap_bb": 3,
+      "open_size_bb": 2.5
+    },
+    "citation": null,              // required if tier=published
+    "run_date": "2026-04-19",
+    "run_file": "solver/runs/6max-utg-rfi-100bb.json"
+  },
+  "grid": {
+    // 169 entries keyed by canonical hand notation
+    "AA":  { "action": "raise", "freq": 1.0 },
+    "AKs": { "action": "raise", "freq": 1.0 },
+    "AJo": { "action": "raise", "freq": 0.75 },
+    "ATo": { "action": "mixed", "freq": 0.35 }
+    // ...
+  },
+  "notes": "Solved on a single node; ignores flat-call from BB at open size 2.5x."
+}</pre>
+
+    <h2>Why not just replace everything with verified data now?</h2>
+    <p>
+      Building a full solver pipeline that covers every chart on the site is
+      a real project — solving runs take minutes to hours per spot, and the
+      full tree (preflop + postflop across positions, stack depths, and bet
+      sizes) is thousands of spots. We're building the <em>plumbing</em>
+      first so verified data can land incrementally without breaking the
+      existing pages. See the
+      <a href="https://github.com/bly1708-creator/poker-gto" target="_blank" rel="noopener">repo</a>
+      for the data pipeline and open spots.
+    </p>
+
+    <h2>What we will not do</h2>
+    <ul>
+      <li>Copy proprietary charts from paid products (GTO Wizard Premium, PioSolver libraries, paid courses) into the site. Free-tier charts with permissive terms only.</li>
+      <li>Represent unverified output as verified. If a chart doesn't carry an explicit <code>verified</code> or <code>published</code> badge, it's an illustration.</li>
+    </ul>
+  </div>
+</article>
+
+<footer class="site">
+  <div class="container">
+    <p>&copy; Solver School — educational content. Not financial or professional poker advice.</p>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

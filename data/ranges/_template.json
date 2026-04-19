@@ -1,0 +1,28 @@
+{
+  "id": "example-range-id",
+  "title": "Example: 6-max UTG RFI (100bb)",
+  "source": {
+    "tier": "unverified",
+    "solver": null,
+    "params": {
+      "stacks_bb": 100,
+      "rake_pct": 5,
+      "rake_cap_bb": 3,
+      "open_size_bb": 2.5
+    },
+    "citation": null,
+    "run_date": null,
+    "run_file": null
+  },
+  "grid": {
+    "AA": { "action": "raise", "freq": 1.0 },
+    "KK": { "action": "raise", "freq": 1.0 },
+    "QQ": { "action": "raise", "freq": 1.0 },
+    "AKs": { "action": "raise", "freq": 1.0 },
+    "AKo": { "action": "raise", "freq": 1.0 },
+    "AJo": { "action": "raise", "freq": 0.75 },
+    "ATo": { "action": "mixed", "freq": 0.35 },
+    "72o": { "action": "fold", "freq": 0.0 }
+  },
+  "notes": "Template only. Replace id/title/source/grid with real data before using."
+}
