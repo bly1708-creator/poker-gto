@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MTT Lesson 5: Applying ICM Pressure — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="index.html" class="active">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Tournaments / Lesson 05</div>
+    <span class="pill">MTT · Lesson 05</span>
+    <h1>Applying ICM Pressure</h1>
+    <p class="subtitle">The capstone — risk premium, Future Game Simulation, and the math of deal-making.</p>
+
+    <h2>Risk premium as a number</h2>
+    <p>
+      We introduced risk premium conceptually in Lesson 1. Now let's quantify it.
+      Risk premium (RP) is the extra equity required for a $EV-breakeven call
+      above the chip-EV breakeven:
+    </p>
+    <blockquote>
+      <strong>RP</strong> = required %$EV equity – required %chipEV equity
+    </blockquote>
+    <p>
+      Risk premium scales with two factors:
+    </p>
+    <ul>
+      <li><strong>Pay jump steepness.</strong> Bigger jumps = higher RP.</li>
+      <li><strong>Stack asymmetry.</strong> The more villain covers you, the higher RP on your calls.</li>
+    </ul>
+
+    <h3>Reference RP values at a final table</h3>
+    <table class="gto">
+      <thead><tr><th>Scenario</th><th>RP</th></tr></thead>
+      <tbody>
+        <tr><td>Chip leader calling 20bb shove from short</td><td>~2%</td></tr>
+        <tr><td>Mid stack calling 15bb shove from similar stack</td><td>~5%</td></tr>
+        <tr><td>Mid stack calling 20bb shove from covering big stack</td><td>~10%</td></tr>
+        <tr><td>Short stack calling 10bb shove from covering mid stack</td><td>~7%</td></tr>
+        <tr><td>Covered stack on 3-handed bubble calling a shove</td><td>~15-20%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>FGS — Future Game Simulation</h2>
+    <p>
+      ICM assumes the tournament ends <em>right now</em> in the proportions
+      indicated by current stacks. FGS is an extension that models N additional
+      future hands with positional and skill edges baked in. It's more accurate
+      but slower and more computationally expensive.
+    </p>
+    <p>
+      Practically, FGS produces slightly different equilibria at points where
+      skill edge matters — a skilled player is worth "more" than their chip
+      stack suggests, because they'll outperform ICM's lottery assumption in
+      future hands. The main implication: if you're a better-than-average
+      player at the final table, you should be marginally more willing to
+      survive than raw ICM suggests.
+    </p>
+
+    <h2>Applying pressure: the "unexploitable bully"</h2>
+    <p>
+      Big stacks at a bubble have an unexploitable advantage. Their shoving
+      and 3-betting ranges widen more than the calling ranges of mediums can
+      tighten. Even if the mediums know exactly what the big stack is doing,
+      they still can't correctly call — the RP is too high.
+    </p>
+    <p>Concrete bubble shove ranges for a 60bb chip leader against covered mids:</p>
+    <ul>
+      <li><strong>Open raise BTN:</strong> 60%+ (adds K5o, Q8o, J7o, T7o, 84s).</li>
+      <li><strong>Open shove BTN with 25bb effective behind:</strong> 35%+ when mediums are very ICM-bound.</li>
+      <li><strong>SB vs covered BB:</strong> nearly any two — 80%+.</li>
+      <li><strong>3-bet vs medium opens:</strong> shove 15-20% IP.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Counter-play:</strong> if you're the medium stack being bullied,
+      the only way to stop the bleed is to pick one spot and go. Find a clean
+      3-bet shove range (22+, AJ+, KQs type) and deploy it hours in. The
+      bully has to respect the re-shove; their own ICM math gets messy if
+      their open range is 60% and your re-shove range is now credible.
+    </div>
+
+    <h2>Deal-making: the ICM chop</h2>
+    <p>
+      When a final table reaches deal-making territory, ICM provides the
+      baseline chop: each player's $EV according to the Malmuth-Harville
+      model at current stacks. Variants:
+    </p>
+    <ul>
+      <li><strong>Full ICM chop:</strong> each player gets exactly their ICM $EV. Standard and mathematically fair.</li>
+      <li><strong>Chip chop:</strong> each player gets prize money in proportion to chip stack. Favors the chip leader.</li>
+      <li><strong>ICM + save for 1st:</strong> chop the minimum ICM amounts, leave a portion for the winner. Satisfies players who want to play for something.</li>
+    </ul>
+
+    <h3>Negotiating ICM deals</h3>
+    <p>
+      If you're the chip leader, push for chip chop — you get more than your
+      ICM equity. If you're short, push for ICM (or better-than-ICM if the
+      leader is deal-averse). Mid stacks usually benefit most from ICM +
+      leave-for-1st structures.
+    </p>
+    <p>
+      Standard leverage tools:
+    </p>
+    <ul>
+      <li>Refuse unfavorable chops; time is your friend if opponents are more deal-hungry than you.</li>
+      <li>Offer a "compromise" between ICM and chip chop — 50/50 split is a common middle ground.</li>
+      <li>Compute the exact ICM numbers before the conversation starts. Never accept a chop without running the math.</li>
+    </ul>
+
+    <h2>Wrap-up: the MTT player's mental model</h2>
+    <p>Every tournament decision maps to three questions:</p>
+    <ol>
+      <li><strong>What stage am I in?</strong> Early, mid, bubble, FT, HU.</li>
+      <li><strong>What is the effective stack?</strong> That determines the tree.</li>
+      <li><strong>What's the risk premium on this decision?</strong> Compare to chip-EV baseline; adjust range accordingly.</li>
+    </ol>
+    <p>
+      Master those three, and every range you memorize becomes a living thing
+      that adjusts to the table in front of you — which is exactly what a
+      solver does.
+    </p>
+
+    <div class="callout warn">
+      <strong>Final reminder:</strong> ICM is a <em>tool</em>. It's not a
+      different game. The underlying GTO framework — ranges, frequencies,
+      blockers, polarization — is the same. ICM just modifies the payoff
+      matrix. Once you see it that way, tournament study and cash study
+      reinforce each other instead of feeling separate.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="04-bubble-ft.html"><small>← Prev</small>Bubble &amp; FT</a>
+      <a href="../index.html" class="next"><small>Course →</small>All lessons</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

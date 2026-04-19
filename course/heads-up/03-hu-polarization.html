@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HU Lesson 3: Polarization &amp; Overbets — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="index.html" class="active">Heads-Up</a>
+      <a href="../tournaments/index.html">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Heads-Up / Lesson 03</div>
+    <span class="pill gold">Heads-Up · Lesson 03</span>
+    <h1>Polarization, Overbets &amp; Bluffcatching</h1>
+    <p class="subtitle">Why HU rivers get so big, and the math behind the 2:1 overbet ratio.</p>
+
+    <h2>Why HU polarizes more than 6-max</h2>
+    <p>
+      In a 6-max 3-bet pot, both ranges are tight and the nut distribution is
+      fairly symmetric. In HU, preflop ranges are so wide that by the river,
+      both players have very long tails of weak hands — missed draws, ace-highs,
+      weak pairs. This creates ideal conditions for polarization: the bettor's
+      strong hands extract max value while their bluffs pressure villain's
+      bloated bluff-catcher region.
+    </p>
+
+    <h2>When does the solver overbet?</h2>
+    <p>Three conditions must all be true:</p>
+    <ol>
+      <li><strong>You have a nut advantage.</strong> Not just equity — specifically the hands in the top 5% of the board's equity distribution.</li>
+      <li><strong>Villain is capped.</strong> His range can't contain the absolute top of hands (or contains them only rarely).</li>
+      <li><strong>Stacks allow threatening action.</strong> An overbet that commits <70% of stacks is a strong lever. One that's only 10bb into 50bb is just noise.</li>
+    </ol>
+
+    <h3>The classic HU overbet spot: BTN vs BB, static turn</h3>
+    <p>
+      SB opens, BB calls. Flop K♠7♦2♣, BB check-calls 33% c-bet. Turn Q♥.
+      SB's range now contains every strong combo (KQ, KK, QQ, AK, AA) that BB
+      doesn't have — BB would have 3-bet those. SB's solver action: overbet
+      ~125% pot with a polar range of KQ+ as value and A5s/A4s blocker bluffs.
+    </p>
+
+    <h2>Overbet math — why 2:1 bluffs to value</h2>
+    <p>
+      Recall from 6-max Lesson 1: the value-to-bluff ratio depends on bet size.
+      At 2× pot:
+    </p>
+    <blockquote>
+      Alpha = bet / (pot + bet) = 2 / (1 + 2) = <strong>67%</strong>
+      <br />
+      Villain must defend 33%. Your range: 33% value, 67% bluff → <strong>1:2 ratio</strong>.
+    </blockquote>
+    <p>
+      That means for every value combo in your overbet range, you need <em>two
+      bluff combos</em>. This is why overbetting is not a casual decision — you
+      need enough credible bluffs to justify the big size, or villain over-folds
+      and the bet is exploitable.
+    </p>
+
+    <h2>Overbet shoves (all-in river)</h2>
+    <p>
+      When stacks are shallow enough that an overbet shove makes sense (typically
+      SPR < 1.5 on the river), the value/bluff math gets cleaner because shoves
+      have no meta. Calculate the implied ratio from the pot-to-shove size.
+    </p>
+    <table class="gto">
+      <thead><tr><th>Pot</th><th>Shove</th><th>Bluff %</th><th>Value : Bluff</th></tr></thead>
+      <tbody>
+        <tr><td>100</td><td>100</td><td>50%</td><td>1 : 1</td></tr>
+        <tr><td>100</td><td>150</td><td>60%</td><td>1 : 1.5</td></tr>
+        <tr><td>100</td><td>200</td><td>67%</td><td>1 : 2</td></tr>
+        <tr><td>100</td><td>300</td><td>75%</td><td>1 : 3</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Bluffcatching HU overbets</h2>
+    <p>
+      When villain overbets, you must defend MDF with your strongest bluff-catchers.
+      Against a 2× overbet you defend 33%. Selection criteria:
+    </p>
+    <ul>
+      <li><strong>Blockers to villain's value.</strong> On a Q-high board where villain overbets, KQ (blocker to QQ) beats most of his bluffs and blocks one of the main value combos.</li>
+      <li><strong>Unblockers to villain's bluffs.</strong> You want missed draws to still be in his range, so avoid hands that hold his air cards.</li>
+      <li><strong>Minimum equity to call.</strong> Against a 2× overbet you need pot odds of 29%. Verify your hand has at least that against villain's implied range.</li>
+    </ul>
+
+    <h2>When to check rather than overbet</h2>
+    <p>
+      You do not overbet every node where you have nut advantage. You check
+      when:
+    </p>
+    <ul>
+      <li>Villain's range already folds too much — smaller sizing extracts more EV.</li>
+      <li>You don't have enough credible bluffs to balance (usually because your range is condensed on value).</li>
+      <li>Your range includes medium-strength hands that prefer smaller bets (pocket nines overbetting into a potential K-high is a leak).</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Mental model:</strong> the bigger your bet, the more polarized your
+      range must be. Your medium-strength hands stay in the check line. Your
+      nuts and your air go to the big-bet line. If you can't cleanly split
+      those groups, you're betting the wrong size.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="02-hu-postflop.html"><small>← Prev</small>HU Postflop</a>
+      <a href="04-hu-exploits.html" class="next"><small>Next →</small>HU Exploits</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

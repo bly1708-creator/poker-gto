@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculators — Solver School</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../course/index.html">Course</a>
+      <a href="../course/6max/index.html">6-max</a>
+      <a href="../course/heads-up/index.html">Heads-Up</a>
+      <a href="../course/tournaments/index.html">Tournaments</a>
+      <a href="../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Tools</a> / Calculators</div>
+    <h1>Calculators</h1>
+    <p class="subtitle">Live updating GTO math — MDF, pot odds, optimal bluff frequency, and ICM equity.</p>
+
+    <h2>MDF &amp; Alpha</h2>
+    <p class="muted">Defender frequency required to prevent a pure bluff from being profitable, and the bluff's required success rate.</p>
+    <div class="tool-card">
+      <div class="controls">
+        <div class="field"><label for="mdf-pot">Pot</label><input type="number" id="mdf-pot" min="0" step="0.5" value="100" /></div>
+        <div class="field"><label for="mdf-bet">Bet size</label><input type="number" id="mdf-bet" min="0" step="0.5" value="66" /></div>
+      </div>
+      <div class="result" id="mdf-out"></div>
+    </div>
+
+    <h2 style="margin-top:36px">Pot odds</h2>
+    <p class="muted">Required equity to break even on a call.</p>
+    <div class="tool-card">
+      <div class="controls">
+        <div class="field"><label for="odds-pot">Pot before call</label><input type="number" id="odds-pot" min="0" step="0.5" value="100" /></div>
+        <div class="field"><label for="odds-call">Call amount</label><input type="number" id="odds-call" min="0" step="0.5" value="50" /></div>
+      </div>
+      <div class="result" id="odds-out"></div>
+    </div>
+
+    <h2 style="margin-top:36px">Optimal bluff frequency</h2>
+    <p class="muted">For a given bet size, how much of your betting range should be value vs bluff at equilibrium.</p>
+    <div class="tool-card">
+      <div class="controls">
+        <div class="field"><label for="br-pot">Pot</label><input type="number" id="br-pot" min="0" step="0.5" value="100" /></div>
+        <div class="field"><label for="br-bet">Bet size</label><input type="number" id="br-bet" min="0" step="0.5" value="75" /></div>
+      </div>
+      <div class="result" id="br-out"></div>
+    </div>
+
+    <h2 style="margin-top:36px">ICM Equity</h2>
+    <p class="muted">Compute each player's $EV using the Malmuth-Harville model. Up to 9 players.</p>
+    <div class="tool-card">
+      <div class="controls">
+        <div class="field" style="flex:1; min-width: 280px;">
+          <label for="icm-stacks">Stacks (chips, comma separated)</label>
+          <input type="text" id="icm-stacks" value="60000, 30000, 10000" />
+        </div>
+        <div class="field" style="flex:1; min-width: 280px;">
+          <label for="icm-prizes">Prizes ($, comma separated)</label>
+          <input type="text" id="icm-prizes" value="500, 300, 200" />
+        </div>
+      </div>
+      <div class="result" id="icm-out"></div>
+      <p class="muted" style="margin-top:14px; font-size:13px;">
+        Tip: try <span class="kbd">25, 25, 25, 25</span> with <span class="kbd">100, 0, 0, 0</span> to see the winner-take-all distribution. The ICM tax on the chip leader is most visible when prizes are flat.
+      </p>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../js/calculators.js"></script>
+<script src="../js/site.js"></script>
+</body>
+</html>

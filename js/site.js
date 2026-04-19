@@ -1,0 +1,258 @@
+// Shared site enhancements: mobile nav, "Tools" link injection, reading progress,
+// mark-complete, lesson TOC, and glossary search. Loaded by every page.
+(function () {
+  'use strict';
+
+  // Find the depth of the current page relative to the site root so relative links work.
+  // Pages live at root, /course/, /course/<track>/, /tools/.
+  function rootPrefix() {
+    var path = location.pathname;
+    // Find the segment containing 'poker-gto' or treat current page's directory
+    // depth as offset from a deployed root. We rely on the page's own <link rel=stylesheet href> path.
+    var link = document.querySelector('link[rel="stylesheet"][href*="styles.css"]');
+    if (!link) return '';
+    var href = link.getAttribute('href');
+    return href.replace('css/styles.css', '');
+  }
+
+  var ROOT = rootPrefix();
+
+  // ---------- Mobile nav + Tools link injection ----------
+  function setupNav() {
+    var header = document.querySelector('header.site');
+    if (!header) return;
+    var nav = header.querySelector('nav.site');
+    if (!nav) return;
+
+    // Inject Tools link before Glossary if not present
+    var hasTools = nav.querySelector('a[data-tools-link]');
+    if (!hasTools) {
+      var glossary = Array.prototype.slice.call(nav.querySelectorAll('a'))
+        .find(function (a) { return /glossary/i.test(a.getAttribute('href') || ''); });
+      var toolsLink = document.createElement('a');
+      toolsLink.href = ROOT + 'tools/index.html';
+      toolsLink.textContent = 'Tools';
+      toolsLink.setAttribute('data-tools-link', '');
+      if (/\/tools\//.test(location.pathname)) toolsLink.classList.add('active');
+      if (glossary) {
+        nav.insertBefore(toolsLink, glossary);
+      } else {
+        nav.appendChild(toolsLink);
+      }
+    }
+
+    // Add hamburger toggle
+    var row = header.querySelector('.row');
+    if (!row.querySelector('.menu-toggle')) {
+      var btn = document.createElement('button');
+      btn.className = 'menu-toggle';
+      btn.setAttribute('aria-label', 'Toggle menu');
+      btn.innerHTML = '☰';
+      row.appendChild(btn);
+      btn.addEventListener('click', function () {
+        nav.classList.toggle('open');
+        btn.innerHTML = nav.classList.contains('open') ? '✕' : '☰';
+      });
+      // close on link click
+      nav.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A' && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.innerHTML = '☰';
+        }
+      });
+    }
+  }
+
+  // ---------- Lesson reading progress + mark complete ----------
+  function setupLessonExtras() {
+    var article = document.querySelector('article.lesson');
+    if (!article) return;
+    if (!document.querySelector('.crumbs')) return;
+
+    var slug = location.pathname.replace(/\/index\.html?$/, '/').replace(/[^a-z0-9_/-]/gi, '');
+    if (!slug || slug === '/') return;
+
+    // Reading progress bar
+    var bar = document.createElement('div');
+    bar.className = 'read-progress';
+    document.body.appendChild(bar);
+    var update = function () {
+      var h = document.documentElement;
+      var max = (h.scrollHeight - h.clientHeight) || 1;
+      var pct = Math.min(100, Math.max(0, (h.scrollTop / max) * 100));
+      bar.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+
+    // Reading time estimate (pin near subtitle)
+    var subtitle = article.querySelector('.subtitle');
+    if (subtitle && !article.querySelector('.meta-row')) {
+      var words = (article.textContent || '').trim().split(/\s+/).length;
+      var mins = Math.max(2, Math.round(words / 240));
+      var metaRow = document.createElement('div');
+      metaRow.className = 'meta-row';
+      metaRow.innerHTML = '<span>⏱ ' + mins + ' min read</span>';
+      // Mark-complete button
+      var done = JSON.parse(localStorage.getItem('ss-progress') || '{}');
+      var key = location.pathname.split('/').slice(-2).join('/');
+      var btn = document.createElement('button');
+      btn.className = 'complete-btn' + (done[key] ? ' done' : '');
+      btn.textContent = done[key] ? '✓ Completed' : 'Mark complete';
+      btn.addEventListener('click', function () {
+        var p = JSON.parse(localStorage.getItem('ss-progress') || '{}');
+        if (p[key]) {
+          delete p[key];
+          btn.classList.remove('done');
+          btn.textContent = 'Mark complete';
+        } else {
+          p[key] = Date.now();
+          btn.classList.add('done');
+          btn.textContent = '✓ Completed';
+        }
+        localStorage.setItem('ss-progress', JSON.stringify(p));
+      });
+      metaRow.appendChild(btn);
+      subtitle.parentNode.insertBefore(metaRow, subtitle.nextSibling);
+    }
+
+    // Auto TOC (desktop sidebar) — collect h2s
+    var headings = article.querySelectorAll('h2');
+    if (headings.length >= 3 && !article.querySelector('aside.toc')) {
+      headings.forEach(function (h) {
+        if (!h.id) {
+          h.id = h.textContent.toLowerCase().trim()
+            .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').slice(0, 60);
+        }
+      });
+      var container = article.querySelector('.container');
+      if (container) {
+        // Wrap existing children of container in a new div, add aside next to it
+        var inner = document.createElement('div');
+        inner.className = 'lesson-main';
+        while (container.firstChild) inner.appendChild(container.firstChild);
+        var layout = document.createElement('div');
+        layout.className = 'lesson-layout';
+        var aside = document.createElement('aside');
+        aside.className = 'toc';
+        aside.innerHTML = '<h4>On this page</h4>';
+        var ul = document.createElement('ul');
+        headings.forEach(function (h) {
+          var li = document.createElement('li');
+          var a = document.createElement('a');
+          a.href = '#' + h.id;
+          a.textContent = h.textContent;
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        aside.appendChild(ul);
+        layout.appendChild(inner);
+        layout.appendChild(aside);
+        container.appendChild(layout);
+
+        // active highlight on scroll
+        var links = aside.querySelectorAll('a');
+        var setActive = function () {
+          var pos = window.scrollY + 120;
+          var current = null;
+          headings.forEach(function (h) {
+            if (h.offsetTop <= pos) current = h.id;
+          });
+          links.forEach(function (a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+          });
+        };
+        window.addEventListener('scroll', setActive, { passive: true });
+        setActive();
+      }
+    }
+  }
+
+  // ---------- Mark completed lessons in catalog/track lists ----------
+  function decorateLessonLists() {
+    var lists = document.querySelectorAll('.lesson-list');
+    if (!lists.length) return;
+    var done = JSON.parse(localStorage.getItem('ss-progress') || '{}');
+    Array.prototype.forEach.call(lists, function (ul) {
+      Array.prototype.forEach.call(ul.querySelectorAll('a'), function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        var key = href.split('/').slice(-2).join('/');
+        if (done[key]) {
+          if (!a.querySelector('.done-mark')) {
+            var span = document.createElement('span');
+            span.className = 'done-mark';
+            span.textContent = '✓';
+            a.appendChild(span);
+          }
+        }
+      });
+    });
+  }
+
+  // ---------- Glossary search ----------
+  function setupGlossarySearch() {
+    var dl = document.querySelector('[data-glossary]');
+    if (!dl) return;
+
+    // Wrap each h3+p into a glossary-term div for filterability
+    var headings = dl.querySelectorAll('h3');
+    Array.prototype.forEach.call(headings, function (h) {
+      var p = h.nextElementSibling;
+      if (!p || p.tagName !== 'P') return;
+      var wrap = document.createElement('div');
+      wrap.className = 'glossary-term';
+      wrap.setAttribute('data-term', (h.textContent + ' ' + p.textContent).toLowerCase());
+      h.parentNode.insertBefore(wrap, h);
+      wrap.appendChild(h);
+      wrap.appendChild(p);
+    });
+
+    var searchWrap = document.createElement('div');
+    searchWrap.className = 'search-bar';
+    var input = document.createElement('input');
+    input.type = 'search';
+    input.placeholder = 'Search glossary…';
+    searchWrap.appendChild(input);
+    var empty = document.createElement('div');
+    empty.className = 'glossary-empty';
+    empty.textContent = 'No matching terms.';
+
+    var subtitle = document.querySelector('article.lesson .subtitle');
+    if (subtitle) {
+      subtitle.parentNode.insertBefore(searchWrap, subtitle.nextSibling);
+      subtitle.parentNode.insertBefore(empty, searchWrap.nextSibling);
+    }
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      var visibleTotal = 0;
+      Array.prototype.forEach.call(document.querySelectorAll('.glossary-term'), function (t) {
+        var match = !q || t.getAttribute('data-term').indexOf(q) !== -1;
+        t.setAttribute('data-hidden', match ? 'false' : 'true');
+        if (match) visibleTotal++;
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('article.lesson h2'), function (h2) {
+        var section = [];
+        var sib = h2.nextElementSibling;
+        while (sib && sib.tagName !== 'H2') {
+          if (sib.classList && sib.classList.contains('glossary-term')) section.push(sib);
+          sib = sib.nextElementSibling;
+        }
+        if (section.length) {
+          var anyVisible = section.some(function (t) { return t.getAttribute('data-hidden') !== 'true'; });
+          h2.style.display = anyVisible ? '' : 'none';
+        }
+      });
+      empty.classList.toggle('show', visibleTotal === 0);
+    });
+  }
+
+  // ---------- Boot ----------
+  document.addEventListener('DOMContentLoaded', function () {
+    setupNav();
+    setupLessonExtras();
+    decorateLessonLists();
+    setupGlossarySearch();
+  });
+})();

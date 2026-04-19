@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lesson 5: Turn and River Play — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="index.html" class="active">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="../tournaments/index.html">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / 6-max / Lesson 05</div>
+    <span class="pill green">6-max · Lesson 05</span>
+    <h1>Turn and River Play</h1>
+    <p class="subtitle">Barreling, overbets, and how to construct a river range that villain's bluff-catchers can't beat.</p>
+
+    <h2>The turn: where ranges get refined</h2>
+    <p>
+      Roughly 50% of your flop range folds to the turn barrel. That means every
+      turn decision prunes your range. A GTO turn plan has three components:
+    </p>
+    <ol>
+      <li><strong>Continuing range:</strong> which combos stay in your betting line?</li>
+      <li><strong>Sizing:</strong> small (blocker/denial) or big (polar)?</li>
+      <li><strong>Give-up candidates:</strong> which flop bluffs with no equity don't double-barrel?</li>
+    </ol>
+
+    <h3>Turn barrel criteria (in order of importance)</h3>
+    <ul>
+      <li><strong>Turn card changes equity?</strong> Overcards and flush/straight completers tighten villain's range.</li>
+      <li><strong>Turn card helps you more than villain?</strong> Compare how many combos each side gains.</li>
+      <li><strong>Blocker quality?</strong> Turn cards that pair villain's range (K-high texture turns a K) drop barrel frequency, since villain now has more calls.</li>
+      <li><strong>Equity when called?</strong> A naked gutshot is a better bluff than a king-high with no draw.</li>
+    </ul>
+
+    <h2>Overbetting</h2>
+    <p>
+      An overbet (125-200% pot) appears in solver solutions whenever one side
+      has a massive <em>nut advantage</em> and villain has too many medium-strength
+      hands in his range. The conditions:
+    </p>
+    <ul>
+      <li>You have sets, straights, flushes. Villain has only top pair.</li>
+      <li>The pot is deep enough for the overbet to still threaten stacks.</li>
+      <li>The board is static — no more key cards coming.</li>
+    </ul>
+    <p>Classic overbet spots:</p>
+    <ul>
+      <li><strong>BTN vs BB, 9s6h2d-Js turn:</strong> BTN has all the JJ/JT/J9 combos. Overbet pot.</li>
+      <li><strong>UTG vs BB 3-bet pot, K72r-K brick turn:</strong> UTG has all AA/KK/AK. Overbet for thin value.</li>
+      <li><strong>Any paired river after SRP checked down flop + turn bet by PFR:</strong> PFR polarizes the river with overbet shoves.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Overbet requires a bluff mix.</strong> If you overbet 125% pot, you
+      need ~1 bluff per 1.1 value combos. That's a lot of bluffs. If you don't
+      have credible bluff candidates, overbetting only for value is exploitable.
+    </div>
+
+    <h2>River: the polarization endgame</h2>
+    <p>
+      On the river, every hand is either value, bluff, or give-up. No more equity
+      realization, no more draws. Your range collapses to three categories.
+    </p>
+
+    <h3>The 2:1 rule (half-pot) and variants</h3>
+    <p>From Lesson 1, the value:bluff ratio at each sizing:</p>
+    <table class="gto">
+      <thead><tr><th>River size</th><th>Value : Bluff</th><th>MDF for caller</th></tr></thead>
+      <tbody>
+        <tr><td>1/3 pot</td><td>3 : 1</td><td>75%</td></tr>
+        <tr><td>1/2 pot</td><td>2 : 1</td><td>67%</td></tr>
+        <tr><td>Pot</td><td>1 : 1</td><td>50%</td></tr>
+        <tr><td>2× pot (overbet)</td><td>1 : 2</td><td>33%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Picking river bluffs: blockers dominate</h3>
+    <p>
+      On the river, bluff selection is almost entirely about blockers, because
+      every candidate has 0% equity when called. The best bluffs:
+    </p>
+    <ul>
+      <li><strong>Block villain's strongest calls.</strong> On a flush-completed river, bluff with the Ax of the flush suit — blocks nut flushes.</li>
+      <li><strong>Unblock his folds.</strong> If villain's folding range is missed draws, hold a card that unblocks those missed draws.</li>
+      <li><strong>Low showdown value.</strong> Don't turn a bluff-catcher (ace-high) into a bluff — that hand is more valuable as a check-call.</li>
+    </ul>
+
+    <h2>Calling rivers: bluff-catcher selection</h2>
+    <p>
+      You don't call with your best hand, and you don't call with your worst.
+      You call with the <em>correct amount of hands</em> — the ones that beat bluffs.
+      The key insight: all bluff-catchers have the same EV at equilibrium.
+    </p>
+    <p>
+      So pick the combos that block villain's <em>value</em>. If the board is
+      A-K-7-4-3 and you have K9 vs AJ, holding a K reduces villain's two-pair
+      combos. That's a better call than 99, even though 99 looks "stronger" —
+      both lose to all value and beat all bluffs, so you want the one that
+      removes value combos.
+    </p>
+
+    <h2>Triple-barrel construction</h2>
+    <p>
+      A clean way to build your triple-barrel range, given flop + turn + river:
+    </p>
+    <ol>
+      <li><strong>Flop:</strong> start with your opening range × flop c-bet frequency.</li>
+      <li><strong>Turn:</strong> continue ~50% of that range. Prune give-ups (flop bluffs with no turn equity).</li>
+      <li><strong>River:</strong> continue ~40% of your turn range. Final polarization: value combos that beat bluff-catchers + blocker bluffs.</li>
+    </ol>
+    <p>
+      Multiplying through: if you c-bet 70% of your opening range, double-barrel
+      50% of that, triple-barrel 40% of that — your river bet is <em>14% of
+      your original opening range</em>. That's a narrow, strong range. Good.
+    </p>
+
+    <div class="callout warn">
+      <strong>Common leak:</strong> triple-barreling too often. If you bet flop,
+      turn, and river with every hand that started as a c-bet, your river range
+      is too wide and too bluff-heavy. Villain calls light and you lose.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="04-cbet-theory.html"><small>← Prev</small>C-bet Theory</a>
+      <a href="06-blockers-exploits.html" class="next"><small>Next →</small>Blockers &amp; Exploits</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

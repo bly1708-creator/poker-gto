@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MTT Lesson 2: Nash Push/Fold — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="index.html" class="active">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Tournaments / Lesson 02</div>
+    <span class="pill">MTT · Lesson 02</span>
+    <h1>Nash Push / Fold</h1>
+    <p class="subtitle">When stacks get short, the tree collapses to two actions: shove or fold. Here are the charts.</p>
+
+    <h2>Why push/fold becomes the solved subgame</h2>
+    <p>
+      Under ~12bb, opening to 2.2bb and folding to a shove is a disaster — you
+      lose ~20% of your stack without a showdown. The solver solution collapses
+      to open-shove or fold: a simple, 2-player zero-sum push/fold game that
+      John Nash's equilibrium concept solves exactly. "Nash ranges" are the
+      closed-form solution.
+    </p>
+
+    <h2>Open-shove ranges by stack (chip-EV, ante game)</h2>
+    <p>These are the SB open-shove ranges vs. BB, assuming 1bb ante:</p>
+    <table class="gto">
+      <thead><tr><th>Stack</th><th>SB shove range</th><th>~%</th></tr></thead>
+      <tbody>
+        <tr><td>15bb</td><td>22+, A2+, K2s+, K8o+, Q5s+, Q9o+, J7s+, JTo, T7s+, 98s</td><td>38%</td></tr>
+        <tr><td>12bb</td><td>22+, A2+, K2s+, K6o+, Q4s+, Q8o+, J6s+, J9o+, T6s+, 96s+</td><td>45%</td></tr>
+        <tr><td>10bb</td><td>22+, A2+, K2+, Q2s+, Q5o+, J3s+, J7o+, T5s+, T8o, 95s+, 86s+</td><td>55%</td></tr>
+        <tr><td>8bb</td><td>22+, A2+, K2+, Q2+, J2s+, J5o+, T3s+, T7o+, 94s+, 85s+, 75s+</td><td>66%</td></tr>
+        <tr><td>5bb</td><td>Any two suited, any pair, any ace, any king, most broadway</td><td>85%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>BB calling ranges vs SB shove</h2>
+    <table class="gto">
+      <thead><tr><th>Stack</th><th>BB call range</th><th>~%</th></tr></thead>
+      <tbody>
+        <tr><td>15bb</td><td>22+, A2+, K7s+, K9o+, Q9s+, QJo, JTs</td><td>22%</td></tr>
+        <tr><td>12bb</td><td>22+, A2+, K5s+, K8o+, Q8s+, QTo+, J9s+, JTo, T9s</td><td>27%</td></tr>
+        <tr><td>10bb</td><td>22+, A2+, K2s+, K5o+, Q6s+, Q9o+, J8s+, J9o+, T8s+, 98s</td><td>35%</td></tr>
+        <tr><td>8bb</td><td>22+, A2+, K2+, Q2s+, Q6o+, J5s+, J8o+, T6s+, 97s+, 87s</td><td>44%</td></tr>
+        <tr><td>5bb</td><td>Any pair, any Ax, any Kx, most Qx and Jx</td><td>65%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>How ICM bends Nash</h2>
+    <p>
+      The charts above are pure chip-EV (no ICM). At the bubble or final table,
+      ICM pressure compresses both ranges — more so on the calling side.
+    </p>
+    <ul>
+      <li><strong>Shover tightens ~20%.</strong> The downside of losing a shove is steeper; marginal shoves with 85o become folds.</li>
+      <li><strong>Caller tightens 30-50%.</strong> Losing a flip busts; even AQ becomes a fold vs. a covering shove at extreme bubbles.</li>
+    </ul>
+    <p>
+      The result: under ICM pressure, the <em>big stack</em> actually gets to
+      shove <em>wider</em> than Nash, because the short/medium stacks can't
+      profitably call. This is the origin of "big stack bullying."
+    </p>
+
+    <h2>Open-shove from other positions</h2>
+    <p>Reference shoving ranges at 10bb from all positions:</p>
+    <table class="gto">
+      <thead><tr><th>Position</th><th>10bb shove range %</th></tr></thead>
+      <tbody>
+        <tr><td>UTG (9-handed)</td><td>~14%</td></tr>
+        <tr><td>MP</td><td>~18%</td></tr>
+        <tr><td>CO</td><td>~28%</td></tr>
+        <tr><td>BTN</td><td>~42%</td></tr>
+        <tr><td>SB</td><td>~55%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Re-shove (ISO shove) ranges</h2>
+    <p>
+      When someone opens to 2.2bb ahead of you and you have 10-18bb, re-shoving
+      is often better than flatting. You get dead money (the raise and the
+      blinds) with fold equity against the opener's wide range.
+    </p>
+    <p>
+      A rough re-shove range facing a BTN 2.2bb open with 15bb from the SB:
+    </p>
+    <ul>
+      <li><strong>Pure value shoves:</strong> 88+, AJ+</li>
+      <li><strong>Thin value shoves:</strong> 55-77, AT, KQ, some AQ-AJ suited</li>
+      <li><strong>Bluff shoves:</strong> small suited Ax (A2s-A5s), some suited broadways (KJs, QJs) as mixes</li>
+      <li><strong>Total:</strong> ~18-22% of hands</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Shortcut for live play:</strong> if you can't remember a chart,
+      use this rule — at 10bb, open-shove any pair, any suited ace, any
+      broadway, and any suited connector 76s+ from BTN or later. Tighten
+      by one tier per position you move earlier.
+    </div>
+
+    <div class="callout warn">
+      <strong>Don't memorize Nash in isolation.</strong> Nash assumes chip-EV and
+      a single-table context. At real tables with ICM, multiple players behind
+      you, and pay jumps, the ranges shift. Use Nash as a ceiling, tighten from
+      there.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="01-icm-fundamentals.html"><small>← Prev</small>ICM Fundamentals</a>
+      <a href="03-stack-sizes.html" class="next"><small>Next →</small>Stack Size Strategy</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

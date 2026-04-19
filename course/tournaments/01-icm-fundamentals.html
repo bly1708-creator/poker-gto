@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MTT Lesson 1: ICM Fundamentals — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="index.html" class="active">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Tournaments / Lesson 01</div>
+    <span class="pill">MTT · Lesson 01</span>
+    <h1>ICM Fundamentals</h1>
+    <p class="subtitle">In tournaments, chips are not dollars. This single fact rewrites every range you learned for cash.</p>
+
+    <h2>The core asymmetry</h2>
+    <p>
+      In a cash game, every chip is worth its face value. Win 100 chips, make
+      $1. Lose 100 chips, lose $1. Symmetric.
+    </p>
+    <p>
+      In a tournament, chips have diminishing value. The first chip you stack
+      from 50bb to 51bb is worth more than the 100th chip you stack from 149bb
+      to 150bb. You can't cash out chips mid-tournament; they're just a score
+      that decides your finishing position, which <em>then</em> maps to prize
+      money.
+    </p>
+
+    <h2>The Independent Chip Model (ICM)</h2>
+    <p>
+      ICM converts chip stacks to expected dollar value by calculating each
+      player's probability of finishing in each paying position.
+    </p>
+    <p>
+      The simplest version (Malmuth-Harville) assumes each player's probability
+      of winning is proportional to their chip stack. So if you have 40% of all
+      chips in play, you win the tournament 40% of the time in the model.
+      Second place probabilities are then computed recursively: given that
+      player X wins, what's each remaining player's chance of finishing second?
+    </p>
+
+    <h3>Worked example: 3-way with prize pool ($500 / $300 / $200)</h3>
+    <p>Stacks: A = 60k, B = 30k, C = 10k. Total = 100k.</p>
+    <table class="gto">
+      <thead><tr><th>Player</th><th>Stack %</th><th>P(1st)</th><th>P(2nd)</th><th>P(3rd)</th><th>$EV</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>60%</td><td>60%</td><td>30%</td><td>10%</td><td>$410</td></tr>
+        <tr><td>B</td><td>30%</td><td>30%</td><td>48%</td><td>22%</td><td>$338</td></tr>
+        <tr><td>C</td><td>10%</td><td>10%</td><td>22%</td><td>68%</td><td>$252</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Notice: A has 60% of chips but only 41% of the equity ($410 / $1000). That
+      20% gap is the <strong>ICM tax</strong> paid by the chip leader.
+    </p>
+
+    <h2>Risk premium</h2>
+    <p>
+      Because chip EV and $EV diverge, you can't just play "chip-EV-neutral" in
+      a tournament. Risk premium is the extra equity you need to break even in
+      $ terms on a risky decision.
+    </p>
+    <blockquote>
+      <strong>Risk premium</strong> = required equity ($EV breakeven) – required equity (chip-EV breakeven)
+    </blockquote>
+    <p>Example: calling an all-in needs 50% equity in chip EV. Under ICM, the same decision might need 57% equity because losing the flip costs you $30 but winning only gains $20. That 7% gap is the risk premium.</p>
+
+    <h2>Where ICM pressure is highest</h2>
+    <table class="gto">
+      <thead><tr><th>Stage</th><th>Risk premium (typical)</th><th>Adjustment</th></tr></thead>
+      <tbody>
+        <tr><td>Early MTT (200+ left)</td><td>0-2%</td><td>Play nearly chip-EV (cash-like)</td></tr>
+        <tr><td>Money bubble (15% of field left)</td><td>5-15%</td><td>Short stacks massively tighten; big stacks open up</td></tr>
+        <tr><td>Pay jump bubbles (final 3 tables)</td><td>3-8% per jump</td><td>Medium stacks tighten vs covering stacks</td></tr>
+        <tr><td>Final table (9-6 left)</td><td>5-12%</td><td>Big stacks exploit short + medium; short stacks open-shove wider</td></tr>
+        <tr><td>3-handed</td><td>10-25%</td><td>Extreme pressure; massive deviation from chip-EV</td></tr>
+        <tr><td>Heads-up</td><td>0%</td><td>Prize pool is fixed remainder; chip-EV returns</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The four rules of ICM</h2>
+    <ol>
+      <li><strong>Survival is worth money.</strong> Big stacks can afford variance; short stacks cannot.</li>
+      <li><strong>Covering stacks apply pressure.</strong> If you can eliminate me, you have leverage — even if we're both deep.</li>
+      <li><strong>Medium stacks suffer.</strong> Between short stacks that ladder and covering stacks that apply pressure, medium stacks have the worst hand of any stack.</li>
+      <li><strong>ICM dissolves in heads-up.</strong> Prize jumps are spent; it's winner-take-remainder chip-EV.</li>
+    </ol>
+
+    <h2>Chip EV vs $EV: a concrete flip</h2>
+    <p>
+      Bubble of an MTT. You have 25bb, covering an opponent's 20bb shove. You
+      have AK. Against villain's shoving range, you have 58% equity.
+    </p>
+    <ul>
+      <li><strong>Chip-EV call:</strong> trivially +EV. Call snap.</li>
+      <li><strong>ICM call:</strong> requires 63% equity. At 58%, this is a <em>fold</em>.</li>
+    </ul>
+    <p>
+      The difference: losing 20bb puts you on 5bb (essentially dead). Winning
+      20bb puts you on 45bb (still plenty). The downside is steeper than the
+      upside.
+    </p>
+
+    <div class="callout">
+      <strong>Study tool:</strong> ICMizer, HoldemResources Calculator (HRC), and
+      DTO are the standard ICM trainers. They let you plug in stack sizes and
+      payouts, then see the exact EV of each action. Every serious MTT player
+      runs hands through one of these regularly.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="index.html"><small>← Back</small>MTT Track</a>
+      <a href="02-push-fold.html" class="next"><small>Next →</small>Nash Push / Fold</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

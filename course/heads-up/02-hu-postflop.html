@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HU Lesson 2: Postflop Fundamentals — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="index.html" class="active">Heads-Up</a>
+      <a href="../tournaments/index.html">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Heads-Up / Lesson 02</div>
+    <span class="pill gold">Heads-Up · Lesson 02</span>
+    <h1>HU Postflop Fundamentals</h1>
+    <p class="subtitle">Range bets, defense frequencies, and why the HU SB c-bets flops at frequencies that look insane to a 6-max player.</p>
+
+    <h2>HU flops favor the raiser more than 6-max</h2>
+    <p>
+      The SB open range (~75%) is much wider than a 6-max CO/BTN open, but the
+      BB call range is also wider (~60%). Despite that symmetry, the SB's range
+      is <em>linear and capped differently</em>: SB's range excludes the very
+      bottom trash, while BB's range excludes premiums (they 3-bet instead).
+      The result: SB has a range advantage on most high-card flops and roughly
+      neutral equity on low/connected boards.
+    </p>
+
+    <h2>SB as the PFR: high c-bet frequencies</h2>
+    <p>
+      In HU single-raised pots at 100bb, SB's c-bet frequency at solver
+      equilibrium is often 70-100% on high-card flops, using a small (25-33%)
+      size. This looks aggressive but is correct because:
+    </p>
+    <ul>
+      <li>SB has all the AA/KK/QQ combos that BB's calling range cannot have (BB 3-bet them).</li>
+      <li>BB is capped at roughly AQ/KQ as "nut" hands on an A-K-x board.</li>
+      <li>Small sizing denies equity to BB's underpairs (22-99 on A-high) cheaply.</li>
+    </ul>
+
+    <h3>C-bet frequency by flop archetype (HU SRP, SB vs BB)</h3>
+    <table class="gto">
+      <thead><tr><th>Flop</th><th>SB c-bet %</th><th>Sizing</th></tr></thead>
+      <tbody>
+        <tr><td>A-K-4 rainbow</td><td>~95%</td><td>25-33% pot</td></tr>
+        <tr><td>K-7-2 rainbow</td><td>~85%</td><td>33% pot</td></tr>
+        <tr><td>Q-J-9 two-tone</td><td>~50%</td><td>Mix of 33% + 75%</td></tr>
+        <tr><td>8-7-6 two-tone</td><td>~30%</td><td>75% polar when betting</td></tr>
+        <tr><td>5-5-2 rainbow</td><td>~70%</td><td>25% pot (range)</td></tr>
+        <tr><td>9-8-7 monotone</td><td>~20%</td><td>Check, or polar 75%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>BB defense vs small c-bets</h2>
+    <p>
+      When SB bets 33% pot, BB's MDF is 75% — a very wide defense number.
+      Practically:
+    </p>
+    <ul>
+      <li>Call any pair, any gutshot, any overcard with backdoors.</li>
+      <li>Fold only completely airy hands with no backdoor equity (9-high no draw on A-K-4).</li>
+      <li>Check-raise ~10% — polar: two pair+ plus select combo draws as bluffs.</li>
+    </ul>
+
+    <h3>Check-raise sizing in HU</h3>
+    <p>
+      BB's check-raises against small SB c-bets run ~3.5-4× the bet (to ~12-15bb
+      into an 8bb pot). The polar construction:
+    </p>
+    <ul>
+      <li><strong>Value:</strong> sets, two pair, top pair top kicker sometimes.</li>
+      <li><strong>Bluffs:</strong> gutshots, open-enders, flush draws with backdoor additions, combo bluffs.</li>
+      <li><strong>Ratio:</strong> 1:1 value to bluff at flop — the bluffs have equity to realize.</li>
+    </ul>
+
+    <h2>SRP as BB (when SB limps)</h2>
+    <p>
+      In HU limped pots, neither range has a significant equity advantage — both
+      are wide, SB's limp range is polar, BB checked its option range. Postflop
+      play becomes about texture:
+    </p>
+    <ul>
+      <li><strong>BB often leads</strong> 25-33% on flops where its range connects harder (paired boards, low connected).</li>
+      <li><strong>Check-check</strong> is common — both players navigate to the turn before committing.</li>
+      <li><strong>SB's stabs after check</strong> are small and wide (30-40% when bet).</li>
+    </ul>
+
+    <h2>3-bet pots: smaller ranges, steeper decisions</h2>
+    <p>
+      In a BB 3-bet pot, SPR is ~4. BB has the nut advantage (he 3-bet with the
+      premiums SB doesn't have). But SB has position, which partially offsets.
+    </p>
+
+    <h3>BB's 3-bet pot c-bet strategy</h3>
+    <ul>
+      <li><strong>A-high, K-high dry:</strong> Range bet small (33% pot). Bets 80%+ of range.</li>
+      <li><strong>Middling connected (T98, 876):</strong> Check ~60%. Polar when betting (75%).</li>
+      <li><strong>Paired:</strong> Bet small, ~80% frequency.</li>
+    </ul>
+
+    <h3>SB's response</h3>
+    <ul>
+      <li><strong>Vs small c-bet:</strong> defend ~75% (call wide, raise narrow and polar).</li>
+      <li><strong>Vs big c-bet:</strong> defend ~60%, raise less often, fold more.</li>
+      <li><strong>SB raise sizing:</strong> ~3× the c-bet, preserving SPR for a committed turn.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Key mental model:</strong> in HU, you can't get away from a made
+      hand as cleanly as in 6-max. Ranges are wide, bluffs are credible at every
+      street, and overfolds are the #1 leak in the population. When your MDF
+      says call, call.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="01-hu-preflop.html"><small>← Prev</small>HU Preflop</a>
+      <a href="03-hu-polarization.html" class="next"><small>Next →</small>Polarization &amp; Overbets</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

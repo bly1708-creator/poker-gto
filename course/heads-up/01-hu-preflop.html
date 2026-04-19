@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HU Lesson 1: Preflop — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="index.html" class="active">Heads-Up</a>
+      <a href="../tournaments/index.html">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Heads-Up / Lesson 01</div>
+    <span class="pill gold">Heads-Up · Lesson 01</span>
+    <h1>HU Preflop: Open, Limp, 3-bet</h1>
+    <p class="subtitle">In heads-up, the small blind is the button. Every hand starts with a big decision.</p>
+
+    <h2>SB as button: a very different environment</h2>
+    <p>
+      In 6-max, the SB is the second-worst position (BB is worst). In heads-up,
+      the SB <em>is</em> the button — it acts last preflop (after BB's action)
+      and gets position for the entire hand. This makes the SB the biggest
+      winner in HU, full stop.
+    </p>
+    <p>
+      Because of that positional edge, the SB plays a very wide range: ~80% of
+      hands at 100bb. A tight SB is a losing SB in HU.
+    </p>
+
+    <h2>The three-action tree at 100bb</h2>
+    <p>The solver's SB strategy mixes three actions:</p>
+    <ul>
+      <li><strong>Min-raise</strong> (2bb): ~70% of hands. A small, wide open.</li>
+      <li><strong>Limp</strong> (1bb): ~10% of hands. A polar mix — strong and speculative.</li>
+      <li><strong>Fold</strong>: ~20% of hands. The worst offsuit garbage (92o, 83o, 72o, 62o, 52o, 42o, 32o, and similar).</li>
+    </ul>
+
+    <h3>Why limping exists in solver HU</h3>
+    <p>
+      Limping has two functions at equilibrium:
+    </p>
+    <ol>
+      <li><strong>Weak hands that can realize equity cheaply.</strong> K5o, Q7o, J8o — too weak to raise-and-fold profitably, too strong to give up.</li>
+      <li><strong>Strong hands to protect the limp range.</strong> A sprinkle of premiums (AA, AK) in the limp range prevents BB from attacking it with big raises.</li>
+    </ol>
+
+    <div class="callout">
+      <strong>Should you limp in practice?</strong> Against a solver BB, yes — the
+      EV gain is real. Against a human BB who over-raises limps or never checks
+      back premium hands, pure min-raise with a 75% linear range is simpler and
+      often more profitable. Start simple; add limping after 100k hands of
+      volume.
+    </div>
+
+    <h2>BB's response to SB min-raise</h2>
+    <p>
+      BB faces a 2bb open with 1bb already posted and ~1bb equity from position
+      reversal when OOP. The solver's BB strategy:
+    </p>
+    <table class="gto">
+      <thead><tr><th>Action</th><th>Frequency</th><th>Range</th></tr></thead>
+      <tbody>
+        <tr><td>Fold</td><td>~25%</td><td>Weakest offsuit: 82o, 72o, 62o, 52o, 42o, 32o, 92o mostly</td></tr>
+        <tr><td>Call</td><td>~60%</td><td>The vast middle: pocket pairs, suited cards, most broadways, suited connectors</td></tr>
+        <tr><td>3-bet</td><td>~15%</td><td>Polar: premiums (TT+, AK, AQs) + bluffs (A2s-A5s, 54s, some suited broadway mixes)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>BB 3-bet sizing: 3.5× to 4×</h3>
+    <p>
+      Because the BB is OOP postflop, it uses a larger 3-bet size (3.5-4×) to
+      (a) build a pot where its value hands dominate and (b) deny SB a cheap
+      flat with hands like 65s or K7s that play well IP.
+    </p>
+
+    <h2>SB's response to BB 3-bet</h2>
+    <p>At 100bb, facing a 4× 3-bet from BB, SB's options:</p>
+    <ul>
+      <li><strong>4-bet for value:</strong> AA, KK, some QQ, AKs.</li>
+      <li><strong>4-bet as bluff:</strong> A5s-A2s (blocker bluffs).</li>
+      <li><strong>Call:</strong> Middle pairs (22-JJ), most broadways, suited connectors, suited aces that don't make the bluff cut.</li>
+      <li><strong>Fold:</strong> The bottom of the raising range — 83s, 74o, 42s, etc.</li>
+    </ul>
+    <p>
+      The 4-bet sizing is ~2.3× the 3-bet (so ~9bb over a 3.5× to 4× 3-bet). This
+      leaves a clean SPR for postflop play in 4-bet pots.
+    </p>
+
+    <h2>SB limp-then-raise trees</h2>
+    <p>When SB limps and BB raises (isoing the limp), SB faces a 3-way decision:</p>
+    <ul>
+      <li><strong>Fold</strong> the bottom of the limp range (J8o, K5o) to larger iso sizes.</li>
+      <li><strong>Call</strong> most of the middle.</li>
+      <li><strong>3-bet limp-raise</strong> with strongest limp combos (AA, KK that were limped for balance) plus select bluffs.</li>
+    </ul>
+    <div class="callout warn">
+      <strong>Common leak:</strong> BB raises every SB limp blindly. If SB's limp
+      range is balanced, this is -EV. Raise only when your hand actually beats
+      the limp range's equity, or limp-check back in BB (yes, this is a solver
+      option too) to realize equity cheaply.
+    </div>
+
+    <h2>Deep stacks (200bb+)</h2>
+    <p>
+      As stacks deepen, SB's RFI widens slightly (hitting ~85%+ at 200bb) but
+      sizing increases (2.5× or 3× opens) because implied odds let hands like
+      suited connectors play for more. BB 3-bet sizing also grows (to ~4.5×).
+      The structural strategy — polar 3-bets, blocker-driven 4-bets — stays
+      the same.
+    </p>
+
+    <div class="lesson-nav">
+      <a href="index.html"><small>← Back</small>Heads-Up Track</a>
+      <a href="02-hu-postflop.html" class="next"><small>Next →</small>HU Postflop Fundamentals</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

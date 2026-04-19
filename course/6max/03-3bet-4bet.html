@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lesson 3: 3-bet and 4-bet Trees — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="index.html" class="active">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="../tournaments/index.html">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / 6-max / Lesson 03</div>
+    <span class="pill green">6-max · Lesson 03</span>
+    <h1>3-bet, 4-bet &amp; 5-bet Trees</h1>
+    <p class="subtitle">The full preflop decision tree once an opener has been raised, from IP flat vs OOP 3-bet all the way to 5-bet shoves.</p>
+
+    <h2>Linear vs polarized 3-bets</h2>
+    <p>
+      A <strong>linear</strong> 3-bet range is the top N% of hands by equity (AA,
+      KK, QQ, AK, AQs, JJ, TT...). A <strong>polarized</strong> 3-bet range is
+      a mix of the very best hands and hands that are too weak to flat but good
+      as 4-bet bluffs (A5s, A4s, KJo, suited connectors that block the opener's
+      calling range).
+    </p>
+    <p>The rule of thumb:</p>
+    <ul>
+      <li><strong>In position, flat-calling is available</strong> → use a polarized 3-bet. The hands that play well as flats (AQo, 99, AJs, KQs) stay in your flat range where they realize equity best.</li>
+      <li><strong>Out of position, flatting is weaker</strong> → use a more linear 3-bet. From the blinds especially, flats don't realize equity well due to being OOP and closing the action vs a squeeze.</li>
+    </ul>
+
+    <h2>3-bet sizing</h2>
+    <table class="gto">
+      <thead><tr><th>Scenario</th><th>Sizing</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>IP 3-bet (CO vs HJ, BTN vs CO)</td><td>~3×</td><td>Small sizing keeps bluffs cheap, positional edge justifies thin value</td></tr>
+        <tr><td>OOP 3-bet (SB vs BTN)</td><td>~4×</td><td>Charges a wide flat-calling range the maximum; OOP needs bigger pots to justify being OOP</td></tr>
+        <tr><td>BB 3-bet vs BTN</td><td>~3.5-4×</td><td>Closes the action, gets to realize equity at any price</td></tr>
+        <tr><td>Squeeze (BTN 3-bets CO+caller)</td><td>~4.5-5×</td><td>Each caller adds dead money + reduces fold equity, need bigger size</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3-bet frequencies by position</h2>
+    <table class="gto">
+      <thead><tr><th>3-bettor</th><th>vs UTG</th><th>vs LJ</th><th>vs CO</th><th>vs BTN</th></tr></thead>
+      <tbody>
+        <tr><td>LJ</td><td>4%</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>HJ</td><td>5%</td><td>6%</td><td>—</td><td>—</td></tr>
+        <tr><td>CO</td><td>6%</td><td>7%</td><td>9%</td><td>—</td></tr>
+        <tr><td>BTN</td><td>7%</td><td>9%</td><td>11%</td><td>—</td></tr>
+        <tr><td>SB</td><td>9%</td><td>10%</td><td>12%</td><td>15%</td></tr>
+        <tr><td>BB</td><td>11%</td><td>13%</td><td>15%</td><td>18%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The 4-bet bluff frequency</h2>
+    <p>
+      When facing a 3-bet, your 4-bet range is split between pure value (AA, KK,
+      QQ, AKs) and 4-bet bluffs. The question every student asks: how many
+      bluffs?
+    </p>
+    <blockquote>
+      At equilibrium, you 4-bet roughly <strong>1 bluff per 1 value</strong> when
+      the 3-bet is OOP and geometric sizing applies. Against an IP 3-bet, drop
+      to <strong>1 bluff per 1.5 value</strong> because opponent's range is more
+      condensed on value and bluffs get less fold equity.
+    </blockquote>
+
+    <h3>Which bluffs? (Blocker selection)</h3>
+    <p>The best 4-bet bluffs have three qualities:</p>
+    <ol>
+      <li><strong>Block villain's value combos.</strong> A5s blocks AA, AK. KQs blocks KK, QQ.</li>
+      <li><strong>Unblock his folding region.</strong> 72o is not a 4-bet bluff — it doesn't block anything.</li>
+      <li><strong>Some equity when called.</strong> A5s has ~30% vs AA. Ideal bluff backup.</li>
+    </ol>
+    <p>Standard 4-bet bluffs from most positions:</p>
+    <ul>
+      <li><strong>BTN vs CO 3-bet:</strong> A5s, A4s, some A3s (blocker to his 4-bet fold region KQo/AJo)</li>
+      <li><strong>SB vs BTN 3-bet:</strong> A5s-A2s, some AJo and KQs mixed</li>
+      <li><strong>UTG vs anyone:</strong> Rarely 4-bet bluff — range is already polar. Mostly pure value (AA/KK/QQ/AKs).</li>
+    </ul>
+
+    <h2>Flat-calling AA? (Sometimes yes)</h2>
+    <p>
+      A solver will flat a small percentage of AA in cold-call spots (BTN flat of
+      UTG open, for example) to <em>protect</em> the rest of its flatting range.
+      If AA is always 3-bet, then when the BTN flats, the opener knows premium
+      hands are gone from the flat range and can attack it. A ~10% flat of AA
+      keeps the range balanced.
+    </p>
+    <div class="callout">
+      <strong>Practical rule:</strong> against weak pools, don't bother. Always
+      3-bet AA for value. The tiny theoretical loss is dwarfed by the EV of
+      building a bigger pot with the best hand.
+    </div>
+
+    <h2>5-bet shoving</h2>
+    <p>
+      When you face a 4-bet, you're usually ~25-30bb into a 100bb stack. Your
+      shove range is heavily value-weighted: AA, KK, AKs, and a small mix of
+      AKo. Bluff 5-bets are rare — you need huge fold equity to risk 100bb, and
+      a 4-betting range is already narrow and bluff-resistant. A5s goes from
+      4-bet bluff to fold when facing a 4-bet.
+    </p>
+
+    <div class="callout warn">
+      <strong>Leak check:</strong> If you're 5-bet shoving QQ at 100bb, you're
+      burning EV. QQ is a call vs 4-bet, not a shove. AA/KK/AK only for 5-bets
+      at full stacks.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="02-preflop-ranges.html"><small>← Prev</small>Preflop Ranges</a>
+      <a href="04-cbet-theory.html" class="next"><small>Next →</small>Continuation Betting</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

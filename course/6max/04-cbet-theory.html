@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lesson 4: Continuation Betting Theory — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="index.html" class="active">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="../tournaments/index.html">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / 6-max / Lesson 04</div>
+    <span class="pill green">6-max · Lesson 04</span>
+    <h1>Continuation Betting Theory</h1>
+    <p class="subtitle">Range advantage, nut advantage, SPR, and why "c-bet every flop" is a decade-old leak.</p>
+
+    <h2>Two advantages, not one</h2>
+    <p>
+      Whether you c-bet depends on two independent properties of the flop:
+    </p>
+    <ul>
+      <li><strong>Range advantage:</strong> whose range has more total equity on this flop?</li>
+      <li><strong>Nut advantage:</strong> whose range has more of the very best hands (sets, two pair, straights)?</li>
+    </ul>
+    <p>
+      You can have range advantage without nut advantage, and vice versa.
+      Treating them the same is the most common c-bet mistake.
+    </p>
+
+    <h2>The four board-texture archetypes</h2>
+    <table class="gto">
+      <thead><tr><th>Flop example</th><th>Who has range adv?</th><th>Who has nut adv?</th><th>PFR strategy</th></tr></thead>
+      <tbody>
+        <tr><td>K72r</td><td>PFR (big)</td><td>PFR (big)</td><td>Range c-bet small (~33%)</td></tr>
+        <tr><td>AK4r</td><td>PFR (massive)</td><td>PFR</td><td>Range c-bet 25-33%, near 100% freq</td></tr>
+        <tr><td>T98ss</td><td>Villain (he has all the connectors)</td><td>Villain</td><td>Check ~70%, c-bet only strong made hands + draws</td></tr>
+        <tr><td>986ss (SB vs BTN)</td><td>Slight for caller</td><td>Roughly even</td><td>Polar bet: nut hands + select bluffs, check the rest</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Range c-bet vs polar c-bet</h2>
+    <p>Two distinct sizings, two distinct purposes:</p>
+
+    <h3>Small c-bet (~25-33% pot) — "range bet"</h3>
+    <ul>
+      <li>Used when you have a big range advantage.</li>
+      <li>Bets close to your entire range, including air.</li>
+      <li>Denies equity to villain's weak Ax and middling pairs.</li>
+      <li>Minimum defense frequency required from villain: 75%.</li>
+    </ul>
+
+    <h3>Big c-bet (~75-100% pot) — "polar bet"</h3>
+    <ul>
+      <li>Used when you have nut advantage on a dynamic board.</li>
+      <li>Bets a polarized range: sets + straights + select combo draws as bluffs.</li>
+      <li>Checks everything medium: top pair good kicker, pocket pairs, gutshots.</li>
+      <li>MDF drops to ~57%. Villain folds the middle, calls the top.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Quick diagnostic:</strong> if you're c-betting AKx flops <em>pot</em>,
+      you're burning value. Villain's range is too weak to call a big bet; you
+      make more using a small size and betting with your whole range.
+    </div>
+
+    <h2>SPR and commitment</h2>
+    <p>
+      Stack-to-Pot Ratio (SPR) determines how geometric your postflop sizing
+      needs to be. At 100bb in a single-raised pot, SPR is roughly 11. In a
+      3-bet pot, SPR drops to ~4. In a 4-bet pot, SPR is ~1.
+    </p>
+    <table class="gto">
+      <thead><tr><th>SPR</th><th>Typical pot</th><th>Geometric river sizing</th></tr></thead>
+      <tbody>
+        <tr><td>~11 (SRP)</td><td>6bb</td><td>33% flop → 66% turn → pot river</td></tr>
+        <tr><td>~4 (3BP)</td><td>24bb</td><td>50% flop → 75% turn → pot river</td></tr>
+        <tr><td>~1 (4BP)</td><td>~50bb</td><td>50% flop shove-equivalent</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The idea: if you want to get stacks in by the river with your value hands,
+      divide the pot into thirds and bet the stack in proportional streets.
+      This produces natural "geometric" sizings that commit you correctly.
+    </p>
+
+    <h2>When to check as the PFR</h2>
+    <p>
+      You check range (or nearly range) when villain's range is equity-favored
+      on the flop. Classic BB-defender-favored flops vs UTG open:
+    </p>
+    <ul>
+      <li><strong>T98, 987, 876, 765</strong> — BB has all the two-pair, straight, and set combos. UTG's AA/KK is actually behind here.</li>
+      <li><strong>654, 543, 432</strong> (rare in practice) — pure BB flops.</li>
+      <li><strong>555, 444, 222</strong> — paired boards where both ranges have equal sets; PFR's c-bet loses fold equity.</li>
+      <li><strong>J86, 974 rainbow middling</strong> — low equity edge, villain's suited connectors thrive.</li>
+    </ul>
+    <p>
+      On these, check 70-100% of the time. Your bets come with strong hands that
+      want to build the pot (like overpairs) and select combo draws, but the
+      default is give up.
+    </p>
+
+    <h2>Donk betting (from OOP caller)</h2>
+    <p>
+      Historically taboo, solvers reveal that the BB donks ~10-15% of the time
+      on specific flop textures — mainly low connected boards (654, 765, 876)
+      where BB's range connects harder than the PFR. The donk sizing is small
+      (25-33% pot) and the range is polar: two pair + sets + straights + flush
+      draws, plus some backdoor bluffs.
+    </p>
+    <div class="callout warn">
+      <strong>Practical note:</strong> live pools rarely donk at all, and regs
+      usually handle donks poorly. Implementing a donking strategy is a study
+      priority only after the rest of your game is solid.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="03-3bet-4bet.html"><small>← Prev</small>3-bet &amp; 4-bet Trees</a>
+      <a href="05-turn-river.html" class="next"><small>Next →</small>Turn &amp; River Play</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

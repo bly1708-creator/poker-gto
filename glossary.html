@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glossary — Solver School</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="course/index.html">Course</a>
+      <a href="course/6max/index.html">6-max</a>
+      <a href="course/heads-up/index.html">Heads-Up</a>
+      <a href="course/tournaments/index.html">Tournaments</a>
+      <a href="glossary.html" class="active">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson" data-glossary>
+  <div class="container narrow">
+    <div class="crumbs">Home / Glossary</div>
+    <h1>Glossary</h1>
+    <p class="subtitle">Terms that appear throughout the course, in one searchable place.</p>
+
+    <h2>Game theory</h2>
+    <dl>
+      <h3>Alpha</h3>
+      <p>The fold frequency required from the defender to make a bluff break even. Formula: <code>bet / (pot + bet)</code>. A pot-sized bluff needs 50% folds (alpha = 50%).</p>
+
+      <h3>Blocker</h3>
+      <p>A card in your hand that reduces the number of specific combos villain can hold. Holding the A♠ on a three-spade board blocks the nut flush.</p>
+
+      <h3>Equilibrium (Nash)</h3>
+      <p>A strategy pair where neither player can unilaterally deviate to improve their EV. The defining concept of GTO.</p>
+
+      <h3>Equity</h3>
+      <p>Your share of the pot at showdown, averaged over all future runouts. A coin flip has 50% equity.</p>
+
+      <h3>EV (Expected Value)</h3>
+      <p>The long-run average result of a decision, weighted by probability.</p>
+
+      <h3>Exploitative play</h3>
+      <p>Deviating from GTO to target a specific opponent leak. Unbalanced, higher-EV against the targeted population, exploitable against someone who counter-adjusts.</p>
+
+      <h3>GTO (Game Theory Optimal)</h3>
+      <p>A strategy at Nash equilibrium — it cannot be exploited by any opponent, though it may not maximally exploit any particular opponent.</p>
+
+      <h3>Indifference</h3>
+      <p>The condition where a specific hand's EV is equal across two or more actions. Indifference enables mixed strategies at equilibrium.</p>
+
+      <h3>MDF (Minimum Defense Frequency)</h3>
+      <p>The minimum frequency you must continue (call or raise) against a bet to prevent a pure 0%-equity bluff from being profitable. Formula: <code>pot / (pot + bet)</code>.</p>
+
+      <h3>Mixed strategy</h3>
+      <p>A strategy where a specific hand takes different actions with specified probabilities (e.g., 4-bet 30%, call 50%, fold 20%).</p>
+
+      <h3>Node-locking</h3>
+      <p>Fixing a specific frequency or range in a solver to model an opponent's known deviation, then re-solving to find the optimal counter-strategy.</p>
+
+      <h3>Polar (polarized) range</h3>
+      <p>A range composed of very strong hands and bluffs, with no middle. Typical of large-bet lines on the river.</p>
+
+      <h3>Range advantage</h3>
+      <p>Having higher average equity than villain's range on a given flop.</p>
+
+      <h3>Nut advantage</h3>
+      <p>Having more combinations of the absolute strongest hands (sets, straights, flushes) on a flop, independent of overall equity.</p>
+    </dl>
+
+    <h2>Cash concepts</h2>
+    <dl>
+      <h3>3-bet</h3>
+      <p>The third raise preflop (posted blind → open → 3-bet). By extension, a re-raise of any preflop raise.</p>
+
+      <h3>4-bet, 5-bet</h3>
+      <p>The fourth and fifth raises preflop. 5-bet is usually all-in at 100bb.</p>
+
+      <h3>C-bet (continuation bet)</h3>
+      <p>A flop bet by the preflop aggressor.</p>
+
+      <h3>Check-raise</h3>
+      <p>Checking with the intent to raise when villain bets. A polar tool, usually reserved for strong hands and select bluffs.</p>
+
+      <h3>Donk bet</h3>
+      <p>A bet by an OOP player who was not the preflop aggressor. Rarely optimal at equilibrium but appears in some solver solutions.</p>
+
+      <h3>Equity realization</h3>
+      <p>The percentage of your raw equity you actually capture at showdown. Hands that can be bluffed off the pot realize less equity; nuts realize 100%.</p>
+
+      <h3>Float</h3>
+      <p>Calling a c-bet with a weak hand, intending to win the pot with aggression on a later street.</p>
+
+      <h3>Iso(late)</h3>
+      <p>Raising over a limp to isolate the limper and play heads-up postflop.</p>
+
+      <h3>Overbet</h3>
+      <p>A bet larger than the pot, used for polar value and bluffs when nut advantage is extreme.</p>
+
+      <h3>PFR (Preflop Raiser)</h3>
+      <p>The player who made the last preflop raise and takes initiative postflop.</p>
+
+      <h3>Range bet</h3>
+      <p>C-betting with your entire range at a small size. Used when range advantage is large.</p>
+
+      <h3>Range c-bet</h3>
+      <p>Synonym for range bet.</p>
+
+      <h3>RFI (Raise First In)</h3>
+      <p>The action of opening the pot unopened. Your RFI range is position-dependent.</p>
+
+      <h3>Squeeze</h3>
+      <p>A 3-bet after an open and at least one caller. Leverages dead money plus multiple fold candidates.</p>
+    </dl>
+
+    <h2>Tournament-specific</h2>
+    <dl>
+      <h3>Bubble</h3>
+      <p>The point just before a pay-out threshold. The money bubble is the most notable; pay-jump bubbles occur throughout the final table.</p>
+
+      <h3>Chip EV</h3>
+      <p>EV measured in tournament chips, ignoring ICM.</p>
+
+      <h3>$EV (dollar EV)</h3>
+      <p>EV measured in prize-pool dollars, using ICM or FGS to convert chip stacks.</p>
+
+      <h3>Covered / covers</h3>
+      <p>Player A covers player B if A has more chips than B. A can eliminate B.</p>
+
+      <h3>FGS (Future Game Simulation)</h3>
+      <p>An extension of ICM that models N additional hands of play before applying payout equity. More accurate for skill-adjusted equity.</p>
+
+      <h3>ICM (Independent Chip Model)</h3>
+      <p>A model that converts chip stacks to expected prize-pool dollars by calculating probabilities of each finishing position.</p>
+
+      <h3>Iso shove</h3>
+      <p>Re-shoving all-in over an opener to isolate and take down the pot with fold equity + equity when called.</p>
+
+      <h3>Ladder</h3>
+      <p>Moving up pay positions without busting. Short stacks "ladder" when other players bust first.</p>
+
+      <h3>Nash range</h3>
+      <p>The push or call range derived from the Nash equilibrium of the two-player push/fold subgame. Chip-EV only unless specified.</p>
+
+      <h3>Open shove</h3>
+      <p>Going all-in as the first raiser preflop. Standard short-stack action.</p>
+
+      <h3>Pay jump</h3>
+      <p>The difference in prize money between adjacent finishing positions.</p>
+
+      <h3>Risk premium</h3>
+      <p>The extra equity required for a $EV-breakeven call above the chip-EV-breakeven point. Scales with pay jumps and stack asymmetry.</p>
+    </dl>
+
+    <h2>Stack sizes and math</h2>
+    <dl>
+      <h3>bb (big blind)</h3>
+      <p>The standard unit of measurement. 100bb = deep, 10bb = short.</p>
+
+      <h3>Effective stack</h3>
+      <p>The smaller of your stack and villain's stack. Dictates the real decision tree.</p>
+
+      <h3>SPR (Stack-to-Pot Ratio)</h3>
+      <p>The ratio of remaining stack to the current pot. Governs geometric sizing and commitment thresholds.</p>
+
+      <h3>Pot odds</h3>
+      <p>The price you're being offered to call: <code>call / (pot + call)</code>. Required equity to break even.</p>
+
+      <h3>Geometric sizing</h3>
+      <p>Sizing each street so that the stack is committed by the river. Dividing the remaining pot into equal geometric increments.</p>
+    </dl>
+
+    <p class="muted" style="margin-top:40px;">Missing a term? The course lessons cover each concept in depth — start with the <a href="course/index.html">catalog</a>.</p>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="js/site.js"></script>
+</body>
+</html>

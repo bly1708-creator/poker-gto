@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Range Explorer — Solver School</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../course/index.html">Course</a>
+      <a href="../course/6max/index.html">6-max</a>
+      <a href="../course/heads-up/index.html">Heads-Up</a>
+      <a href="../course/tournaments/index.html">Tournaments</a>
+      <a href="../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Tools</a> / Range Explorer</div>
+    <h1>Range Explorer</h1>
+    <p class="subtitle">Browse 11 preflop ranges across 6-max, heads-up, and Nash push/fold. Hover any cell for details.</p>
+
+    <div class="tool-card">
+      <div class="controls">
+        <div class="field" style="flex:1; min-width: 280px;">
+          <label for="range-select">Preset</label>
+          <select id="range-select"></select>
+        </div>
+      </div>
+
+      <div id="range-meta" style="margin-bottom: 14px;"></div>
+      <div id="range-stats" class="stat-row"></div>
+
+      <div class="range-grid" id="range-grid" aria-label="13 by 13 preflop range grid"></div>
+
+      <div class="legend">
+        <span><span class="sw" style="background: var(--raise);"></span>Raise / Open</span>
+        <span><span class="sw" style="background: linear-gradient(135deg, var(--raise) 60%, #1a2a24 60%);"></span>Raise mix</span>
+        <span><span class="sw" style="background: var(--call);"></span>Call</span>
+        <span><span class="sw" style="background: var(--threebet);"></span>3-bet</span>
+        <span><span class="sw" style="background: var(--shove);"></span>Shove</span>
+        <span><span class="sw" style="background: #1a2a24;"></span>Fold</span>
+      </div>
+    </div>
+
+    <h2 style="margin-top:40px">How to read these ranges</h2>
+    <p>The grid uses standard convention: rows and columns are A K Q J T 9 8 7 6 5 4 3 2.</p>
+    <ul>
+      <li><strong>Diagonal cells</strong> are pocket pairs (AA, KK, ..., 22).</li>
+      <li><strong>Above the diagonal</strong> (top-right) are suited hands like AKs, AQs.</li>
+      <li><strong>Below the diagonal</strong> (bottom-left) are offsuit hands like AKo, KQo.</li>
+      <li><strong>Solid cells</strong> are pure actions; <strong>split cells</strong> are mixed strategies.</li>
+    </ul>
+
+    <p class="muted">All ranges are simplified solver outputs at standard sizings (2.5× opens, 3-3.5× IP 3-bet, 4× OOP 3-bet, 100bb deep unless noted). For exact frequencies, run your own sims.</p>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../js/ranges.js"></script>
+<script src="../js/range-explorer.js"></script>
+<script src="../js/site.js"></script>
+</body>
+</html>

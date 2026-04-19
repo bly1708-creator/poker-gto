@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hand Trainer — Solver School</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../course/index.html">Course</a>
+      <a href="../course/6max/index.html">6-max</a>
+      <a href="../course/heads-up/index.html">Heads-Up</a>
+      <a href="../course/tournaments/index.html">Tournaments</a>
+      <a href="../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Tools</a> / Hand Trainer</div>
+    <h1>Hand Trainer</h1>
+    <p class="subtitle">12 scenarios across cash, heads-up, and tournaments. Pick the GTO action; get a full explanation either way.</p>
+
+    <div class="scoreboard">
+      <div><span class="label">Score</span> <span class="value" id="score-num">0 / 0</span></div>
+      <div class="progress-bar"><div class="fill" id="q-progress"></div></div>
+      <div><span class="label" id="q-counter">Question 1 of 12</span></div>
+    </div>
+
+    <div class="scenario">
+      <div class="stage" id="q-stage"></div>
+      <h3 id="q-title"></h3>
+      <div class="setup" id="q-setup"></div>
+      <div class="hand" id="q-hand"></div>
+      <div class="actions" id="q-actions"></div>
+      <div class="feedback" id="q-feedback"></div>
+      <div style="margin-top: 18px; text-align: right;">
+        <button id="next-btn" class="cta" disabled>Next →</button>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top: 24px;">
+      Aim for 80%+ on this trainer before moving to the next level of study. Click <a href="../course/index.html">Course</a> for the full lesson tree.
+    </p>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../js/trainer.js"></script>
+<script src="../js/site.js"></script>
+</body>
+</html>

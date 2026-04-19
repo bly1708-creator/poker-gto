@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MTT Lesson 4: Bubble &amp; Final Table — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="index.html" class="active">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Tournaments / Lesson 04</div>
+    <span class="pill">MTT · Lesson 04</span>
+    <h1>Bubble &amp; Final Table</h1>
+    <p class="subtitle">Pay jumps distort chip equity in specific, predictable ways. Learn the patterns and exploit them.</p>
+
+    <h2>The money bubble</h2>
+    <p>
+      The money bubble is the single biggest ICM inflection point. One player
+      gets zero; the next gets min-cash. The equity gap between 2nd-last and
+      last is effectively infinite (min-cash vs. $0).
+    </p>
+    <p>
+      Effect: everyone except the chip leader plays tight to ladder. The chip
+      leader gets to open every button, 3-bet from the SB, and 4-bet-bluff
+      short stacks who can't call without tanking their equity.
+    </p>
+
+    <h3>Bubble strategy by stack</h3>
+    <ul>
+      <li><strong>Chip leader:</strong> open 50%+ from BTN, 40%+ from SB. Iso-shove over min-opens from medium stacks.</li>
+      <li><strong>Big stack (not leader):</strong> play chip-EV-ish preflop, tighten calls vs. chip leader's aggression.</li>
+      <li><strong>Medium stack (most risk):</strong> open tight, fold medium pairs to covering 3-bets, never flip if you can avoid it.</li>
+      <li><strong>Short stack:</strong> counterintuitively, open-shove wider than Nash — you get folds from the mediums who are ICM-scared.</li>
+      <li><strong>Shortest stack (the bubble stack):</strong> fold everything except premiums; the next blind might bust someone else and you cash.</li>
+    </ul>
+
+    <h2>The pay-jump ladder</h2>
+    <p>
+      Every pay jump is its own mini-bubble. Final-table ladders typically look
+      like:
+    </p>
+    <table class="gto">
+      <thead><tr><th>Finish</th><th>% of prize pool</th><th>% gain over next-lowest</th></tr></thead>
+      <tbody>
+        <tr><td>1st</td><td>22%</td><td>+47%</td></tr>
+        <tr><td>2nd</td><td>15%</td><td>+36%</td></tr>
+        <tr><td>3rd</td><td>11%</td><td>+38%</td></tr>
+        <tr><td>4th</td><td>8%</td><td>+33%</td></tr>
+        <tr><td>5th</td><td>6%</td><td>+50%</td></tr>
+        <tr><td>6th</td><td>4%</td><td>+33%</td></tr>
+        <tr><td>7th</td><td>3%</td><td>+50%</td></tr>
+        <tr><td>8th</td><td>2%</td><td>+100%</td></tr>
+        <tr><td>9th</td><td>1%</td><td>baseline</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Notice how the bottom jumps (9th → 8th) are smaller in absolute dollars
+      but huge in percentage. A short stack has far more to protect than a
+      big stack does.
+    </p>
+
+    <h2>Covering stacks weaponize ICM</h2>
+    <p>
+      If you cover another player, you can bust them. That threat creates
+      leverage even in spots where chip-EV would say call:
+    </p>
+    <ul>
+      <li>Chip leader opens SB. You're BB with JJ and 30bb. Chip leader covers.</li>
+      <li>Chip-EV: 3-bet shove for value. JJ is a monster.</li>
+      <li>ICM: flat. Shoving risks your whole stack for a flip vs. AK-AQ and worse than coinflip vs. QQ+. The $EV of just calling and playing a postflop pot is higher.</li>
+    </ul>
+
+    <h2>Final table stack structure</h2>
+    <p>
+      A typical 9-handed final table has one big stack (40-60bb), a couple mid
+      stacks (20-30bb), and multiple short stacks (7-15bb). The big stack's
+      job is to pressure the mids while shorts do their own push/fold thing.
+    </p>
+
+    <h3>Playing big stack at the FT</h3>
+    <ul>
+      <li>Open 45%+ from late position.</li>
+      <li>Iso-shove over min-opens from mids when you cover.</li>
+      <li>Don't tangle with other big stacks — they can hurt you.</li>
+      <li>Limp SB vs. short BB to keep them in bad spots; they can't fold to your option raise cheaply.</li>
+    </ul>
+
+    <h3>Playing mid stack at the FT</h3>
+    <ul>
+      <li>This is the hardest stack to navigate.</li>
+      <li>Tighten preflop calls — especially vs. the big stack.</li>
+      <li>Look for spots to shove over shorts who are limping or min-opening.</li>
+      <li>Avoid flipping against covering stacks at all costs.</li>
+    </ul>
+
+    <h3>Playing short stack at the FT</h3>
+    <ul>
+      <li>Your job is to double up or bust trying. Ladder income comes from others busting, not from you surviving.</li>
+      <li>Open-shove wider than mid stacks — against ICM-scared mediums you get folds you don't deserve.</li>
+      <li>Don't flat opens unless it's a pot you can commit to.</li>
+    </ul>
+
+    <h2>Specific bubble spots</h2>
+
+    <h3>The "I'm covered by BB" open</h3>
+    <p>
+      You have 15bb on the button. BB has 40bb and covers. Your default open
+      range tightens sharply — BB will 3-bet shove wide knowing you can't
+      call. Fold 72s, J8o, K3o — hands you'd open normally — and open only
+      combos you'd be happy to call a shove with (22+, A9+, KT+, suited
+      broadway).
+    </p>
+
+    <h3>The "I cover the shortest BB" open</h3>
+    <p>
+      You have 30bb, BTN. BB has 5bb. Open nearly any two — BB can't call
+      wide without risking their cash, and their re-shove range is narrow
+      enough that you just fold your steals to it.
+    </p>
+
+    <div class="callout">
+      <strong>Memory aid:</strong> the three stacks to respect at a FT are
+      "covers me," "I cover for cash," and "two big jumps from now." Everyone
+      else is ordinary chip-EV.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="03-stack-sizes.html"><small>← Prev</small>Stack Sizes</a>
+      <a href="05-icm-pressure.html" class="next"><small>Next →</small>Applying ICM Pressure</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>

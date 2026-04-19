@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MTT Lesson 3: Stack Size Strategy — Solver School</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site">
+  <div class="container row">
+    <a href="../../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../index.html">Course</a>
+      <a href="../6max/index.html">6-max</a>
+      <a href="../heads-up/index.html">Heads-Up</a>
+      <a href="index.html" class="active">Tournaments</a>
+      <a href="../../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs">Course / Tournaments / Lesson 03</div>
+    <span class="pill">MTT · Lesson 03</span>
+    <h1>Stack Size Strategy</h1>
+    <p class="subtitle">Deep, mid, short, nit-short. Your effective stack dictates what game you're playing.</p>
+
+    <h2>The four stack zones</h2>
+    <table class="gto">
+      <thead><tr><th>Zone</th><th>Stack (bb)</th><th>Primary tree</th><th>Key goal</th></tr></thead>
+      <tbody>
+        <tr><td>Deep</td><td>40+</td><td>Open-raise + postflop</td><td>Accumulate chips, implied odds matter</td></tr>
+        <tr><td>Mid</td><td>20-40</td><td>Open-raise or 3-bet shove</td><td>Maintain stack, avoid marginal spots</td></tr>
+        <tr><td>Short</td><td>10-20</td><td>Open-shove + re-shove + min-raise mix</td><td>Get chips in good, preserve fold equity</td></tr>
+        <tr><td>Nit-short</td><td>≤10</td><td>Pure push/fold</td><td>Find any spot with equity + fold equity</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Deep (40bb+) — similar to cash, with adjustments</h2>
+    <p>
+      Deep-stacked MTT play most closely resembles 6-max cash. Open 2.2-2.5bb,
+      defend BB wide, c-bet small on high-card flops. The key differences:
+    </p>
+    <ul>
+      <li><strong>Less flatting of 3-bets OOP.</strong> You can't realize equity in a bloated OOP pot as well as in cash — the ICM tail starts to bite.</li>
+      <li><strong>Tighter 4-bet calls.</strong> QQ becomes a mixed strategy (call/fold) vs 4-bets at 50bb effective; at 100bb it'd be a pure call.</li>
+      <li><strong>Check more rivers as the PFR.</strong> Getting to showdown cheaply with medium strength is more valuable when losing a big pot means bustout.</li>
+    </ul>
+
+    <h2>Mid (20-40bb) — the 3-bet-or-fold zone</h2>
+    <p>
+      The signature strategy at 20-35bb is the <strong>3-bet shove</strong>.
+      When facing an open at this depth, flatting is weak (you create SPR you
+      can't manage), and a small 3-bet followed by a fold to a 4-bet is
+      disastrous. So you play a binary strategy:
+    </p>
+    <ul>
+      <li><strong>Shove 3-bet</strong> with value + blocker bluffs (AA-88, AK-AJ, AQs, KQs, plus A2s-A5s as bluffs).</li>
+      <li><strong>Flat</strong> a narrow range (small pairs, suited connectors) only when IP with implied odds.</li>
+      <li><strong>Fold</strong> the rest.</li>
+    </ul>
+
+    <h3>30bb open-raise sizing</h3>
+    <p>
+      At 30bb, open to 2.0-2.2bb (smaller than deep). You're not building a big
+      pot — you're stealing blinds or setting up a cheap flop. Postflop, play
+      a tight c-bet strategy: range bet 33% on high-card dry flops, check more
+      on wet boards.
+    </p>
+
+    <h2>Short (10-20bb) — the most complex zone</h2>
+    <p>
+      At 10-20bb, your tree expands to four actions: min-raise, open-shove,
+      limp (rare), and fold. The solver's choice depends on position and
+      stack:
+    </p>
+    <table class="gto">
+      <thead><tr><th>Position</th><th>Stack</th><th>Default action with playable hand</th></tr></thead>
+      <tbody>
+        <tr><td>UTG-CO</td><td>15-20bb</td><td>Min-raise (2.0bb)</td></tr>
+        <tr><td>UTG-CO</td><td>10-15bb</td><td>Open-shove premiums, min-raise others</td></tr>
+        <tr><td>BTN/SB</td><td>12-18bb</td><td>Min-raise wide (polar)</td></tr>
+        <tr><td>BTN/SB</td><td>8-12bb</td><td>Open-shove ~50%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Facing a min-raise at 12-18bb</h3>
+    <p>
+      The ISO shove is your friend. Re-shove with 22+, suited aces, suited
+      broadways, AQo, AJo+ depending on position. Flatting is rarely optimal
+      because postflop with 8bb in the pot and 10bb behind, you're not going
+      to navigate any tough decision well.
+    </p>
+
+    <h2>Nit-short (≤10bb) — pure push/fold</h2>
+    <p>
+      Below 10bb, you've crossed into pure Nash territory (Lesson 2). No more
+      min-raising, no more postflop. Find your spot and shove.
+    </p>
+    <p>
+      Two additional nuances at 5-10bb:
+    </p>
+    <ul>
+      <li><strong>Steal-shove.</strong> From BTN/SB with fold equity against unopened blinds, you can shove very wide (50%+ at 8bb).</li>
+      <li><strong>Over-shove.</strong> Facing a min-raise, shove on top. The raiser is giving you ~3bb dead money to win; fold equity is massive.</li>
+    </ul>
+
+    <h2>Effective stack — it's the smaller of you and villain</h2>
+    <p>
+      Always assess the <em>effective</em> stack, not your own stack. If you
+      have 40bb and villain has 10bb, you're playing a 10bb pot. That means:
+    </p>
+    <ul>
+      <li>Don't "give action" just because you're deep — villain is short, his range is polar.</li>
+      <li>Call shoves based on villain's stack size, not yours.</li>
+      <li>Don't 3-bet small and give villain the excuse to shove.</li>
+    </ul>
+
+    <h2>Stack size by tournament stage</h2>
+    <table class="gto">
+      <thead><tr><th>Stage</th><th>Typical avg stack</th><th>Dominant zone</th></tr></thead>
+      <tbody>
+        <tr><td>Early (levels 1-4)</td><td>80-150bb</td><td>Deep (cash-like)</td></tr>
+        <tr><td>Middle (levels 5-10)</td><td>30-60bb</td><td>Mid</td></tr>
+        <tr><td>Late/bubble</td><td>15-30bb</td><td>Short</td></tr>
+        <tr><td>Final table</td><td>8-25bb</td><td>Short + nit-short</td></tr>
+        <tr><td>Heads-up</td><td>varies</td><td>Whatever ends up on the table</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>The biggest shift:</strong> players who study cash and try to
+      apply it to MTTs get crushed in the middle stages because they keep
+      trying to play "real poker" at 25bb. Accept that 25bb is a different
+      game — it's mostly push/fold decorated with a few min-raises.
+    </div>
+
+    <div class="lesson-nav">
+      <a href="02-push-fold.html"><small>← Prev</small>Nash Push/Fold</a>
+      <a href="04-bubble-ft.html" class="next"><small>Next →</small>Bubble &amp; Final Table</a>
+    </div>
+  </div>
+</article>
+
+<footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/site.js"></script>
+</body>
+</html>
