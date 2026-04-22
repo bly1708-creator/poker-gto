@@ -42,42 +42,22 @@
       <li>Rake is a fixed drag on small edges — marginal opens become losers earlier.</li>
     </ul>
 
-    <h2>UTG — 14% RFI</h2>
-    <p>Tight and linear. Mostly pairs, broadways, suited connectors 76s+, and the best suited aces.</p>
-    <div class="range-grid" aria-label="UTG RFI range chart">
-      <!-- Row pairs: AA KK QQ ... 22 on the diagonal, offsuit above, suited below -->
-      <div class="cell raise">AA</div><div class="cell raise">AKs</div><div class="cell raise">AQs</div><div class="cell raise">AJs</div><div class="cell raise">ATs</div><div class="cell raise">A9s</div><div class="cell raise">A8s</div><div class="cell raise">A7s</div><div class="cell raise">A6s</div><div class="cell raise">A5s</div><div class="cell raise">A4s</div><div class="cell fold">A3s</div><div class="cell fold">A2s</div>
-      <div class="cell raise">AKo</div><div class="cell raise">KK</div><div class="cell raise">KQs</div><div class="cell raise">KJs</div><div class="cell raise">KTs</div><div class="cell fold">K9s</div><div class="cell fold">K8s</div><div class="cell fold">K7s</div><div class="cell fold">K6s</div><div class="cell fold">K5s</div><div class="cell fold">K4s</div><div class="cell fold">K3s</div><div class="cell fold">K2s</div>
-      <div class="cell raise">AQo</div><div class="cell raise">KQo</div><div class="cell raise">QQ</div><div class="cell raise">QJs</div><div class="cell raise">QTs</div><div class="cell fold">Q9s</div><div class="cell fold">Q8s</div><div class="cell fold">Q7s</div><div class="cell fold">Q6s</div><div class="cell fold">Q5s</div><div class="cell fold">Q4s</div><div class="cell fold">Q3s</div><div class="cell fold">Q2s</div>
-      <div class="cell raise">AJo</div><div class="cell mixed">KJo</div><div class="cell fold">QJo</div><div class="cell raise">JJ</div><div class="cell raise">JTs</div><div class="cell fold">J9s</div><div class="cell fold">J8s</div><div class="cell fold">J7s</div><div class="cell fold">J6s</div><div class="cell fold">J5s</div><div class="cell fold">J4s</div><div class="cell fold">J3s</div><div class="cell fold">J2s</div>
-      <div class="cell mixed">ATo</div><div class="cell fold">KTo</div><div class="cell fold">QTo</div><div class="cell fold">JTo</div><div class="cell raise">TT</div><div class="cell raise">T9s</div><div class="cell fold">T8s</div><div class="cell fold">T7s</div><div class="cell fold">T6s</div><div class="cell fold">T5s</div><div class="cell fold">T4s</div><div class="cell fold">T3s</div><div class="cell fold">T2s</div>
-      <div class="cell fold">A9o</div><div class="cell fold">K9o</div><div class="cell fold">Q9o</div><div class="cell fold">J9o</div><div class="cell fold">T9o</div><div class="cell raise">99</div><div class="cell raise">98s</div><div class="cell fold">97s</div><div class="cell fold">96s</div><div class="cell fold">95s</div><div class="cell fold">94s</div><div class="cell fold">93s</div><div class="cell fold">92s</div>
-      <div class="cell fold">A8o</div><div class="cell fold">K8o</div><div class="cell fold">Q8o</div><div class="cell fold">J8o</div><div class="cell fold">T8o</div><div class="cell fold">98o</div><div class="cell raise">88</div><div class="cell raise">87s</div><div class="cell fold">86s</div><div class="cell fold">85s</div><div class="cell fold">84s</div><div class="cell fold">83s</div><div class="cell fold">82s</div>
-      <div class="cell fold">A7o</div><div class="cell fold">K7o</div><div class="cell fold">Q7o</div><div class="cell fold">J7o</div><div class="cell fold">T7o</div><div class="cell fold">97o</div><div class="cell fold">87o</div><div class="cell raise">77</div><div class="cell raise">76s</div><div class="cell fold">75s</div><div class="cell fold">74s</div><div class="cell fold">73s</div><div class="cell fold">72s</div>
-      <div class="cell fold">A6o</div><div class="cell fold">K6o</div><div class="cell fold">Q6o</div><div class="cell fold">J6o</div><div class="cell fold">T6o</div><div class="cell fold">96o</div><div class="cell fold">86o</div><div class="cell fold">76o</div><div class="cell raise">66</div><div class="cell mixed">65s</div><div class="cell fold">64s</div><div class="cell fold">63s</div><div class="cell fold">62s</div>
-      <div class="cell fold">A5o</div><div class="cell fold">K5o</div><div class="cell fold">Q5o</div><div class="cell fold">J5o</div><div class="cell fold">T5o</div><div class="cell fold">95o</div><div class="cell fold">85o</div><div class="cell fold">75o</div><div class="cell fold">65o</div><div class="cell raise">55</div><div class="cell fold">54s</div><div class="cell fold">53s</div><div class="cell fold">52s</div>
-      <div class="cell fold">A4o</div><div class="cell fold">K4o</div><div class="cell fold">Q4o</div><div class="cell fold">J4o</div><div class="cell fold">T4o</div><div class="cell fold">94o</div><div class="cell fold">84o</div><div class="cell fold">74o</div><div class="cell fold">64o</div><div class="cell fold">54o</div><div class="cell raise">44</div><div class="cell fold">43s</div><div class="cell fold">42s</div>
-      <div class="cell fold">A3o</div><div class="cell fold">K3o</div><div class="cell fold">Q3o</div><div class="cell fold">J3o</div><div class="cell fold">T3o</div><div class="cell fold">93o</div><div class="cell fold">83o</div><div class="cell fold">73o</div><div class="cell fold">63o</div><div class="cell fold">53o</div><div class="cell fold">43o</div><div class="cell raise">33</div><div class="cell fold">32s</div>
-      <div class="cell fold">A2o</div><div class="cell fold">K2o</div><div class="cell fold">Q2o</div><div class="cell fold">J2o</div><div class="cell fold">T2o</div><div class="cell fold">92o</div><div class="cell fold">82o</div><div class="cell fold">72o</div><div class="cell fold">62o</div><div class="cell fold">52o</div><div class="cell fold">42o</div><div class="cell fold">32o</div><div class="cell raise">22</div>
-    </div>
-    <div class="legend">
-      <span><span class="sw" style="background:#c64040;"></span>Open raise</span>
-      <span><span class="sw" style="background:linear-gradient(135deg,#c64040 50%,#1a2a24 50%);"></span>Mixed (raise/fold)</span>
-      <span><span class="sw" style="background:#1a2a24;"></span>Fold</span>
-    </div>
+    <h2>RFI ranges — all six positions</h2>
+    <p>
+      Click a position tab to see its open-raise chart. The grid is the standard
+      13×13: pairs on the diagonal, suited below, offsuit above. Red = open,
+      half-red = mix, empty = fold.
+    </p>
+    <div class="preflop-chart" data-start="0"></div>
 
-    <h2>Why each position plays differently</h2>
-    <table class="gto">
-      <thead><tr><th>Position</th><th>RFI %</th><th>Key additions from the previous seat</th></tr></thead>
-      <tbody>
-        <tr><td>UTG</td><td>~14%</td><td>Baseline: 22+, A9s+, KTs+, QTs+, JTs, T9s, 98s, 87s, 76s, AJo+, KQo</td></tr>
-        <tr><td>LJ</td><td>~17%</td><td>+A5s, A4s, suited gappers (T8s, 97s), KJo, QJo mixed</td></tr>
-        <tr><td>HJ</td><td>~21%</td><td>+A2s-A5s all, K9s, Q9s, J9s, ATo, KJo pure, 65s, 54s</td></tr>
-        <tr><td>CO</td><td>~27%</td><td>+K2s-K9s filled in, Q8s, J8s, T8s, weaker broadway offsuit (QTo, JTo)</td></tr>
-        <tr><td>BTN</td><td>~44%</td><td>+Almost all suited, 97o-T9o, A2o+, K9o+, Q9o+, J8s, T7s</td></tr>
-        <tr><td>SB</td><td>~40% (raise-first)</td><td>Uses a limp+raise mixed strategy vs a solver BB; raise-only ≈ 40%</td></tr>
-      </tbody>
-    </table>
+    <h2>When each hand enters the range</h2>
+    <p>
+      One chart, 169 hands: each cell is colored by the <em>earliest</em>
+      position that opens it. Dark red = UTG-wide (premium). Gold = BTN-only.
+      Empty = never opened from any position. Quick way to see which hands are
+      "positional" and which are universal.
+    </p>
+    <div class="entry-heatmap"></div>
 
     <h2>Sizing: why 2.5bb, not 3bb</h2>
     <p>
@@ -115,6 +95,7 @@
 </article>
 
 <footer class="site"><div class="container row"><div>© Solver School</div></div></footer>
+<script src="../../js/preflop-charts.js"></script>
 <script src="../../js/site.js"></script>
 </body>
 </html>

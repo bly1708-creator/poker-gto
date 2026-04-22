@@ -17,6 +17,117 @@
 
   var ROOT = rootPrefix();
 
+  // ---------- Theme toggle ----------
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    var btn = document.querySelector('.theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀' : '☾';
+  }
+  function setupThemeToggle() {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    applyTheme(saved === 'dark' ? 'dark' : 'light');
+    var header = document.querySelector('header.site .row');
+    if (!header) return;
+    if (header.querySelector('.theme-toggle')) return;
+    var btn = document.createElement('button');
+    btn.className = 'theme-toggle';
+    btn.setAttribute('aria-label', 'Toggle dark mode');
+    btn.addEventListener('click', function () {
+      var cur = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+    header.appendChild(btn);
+    applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+  }
+
+  // ---------- Lesson search ----------
+  var SEARCH_INDEX = null;
+  function loadSearchIndex() {
+    if (SEARCH_INDEX !== null) return Promise.resolve(SEARCH_INDEX);
+    return fetch(ROOT + 'data/search-index.json')
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (data) { SEARCH_INDEX = data; return data; })
+      .catch(function () { SEARCH_INDEX = []; return []; });
+  }
+  function scorePage(page, terms) {
+    var score = 0;
+    var title = (page.title || '').toLowerCase();
+    var headings = (page.headings || []).join(' ').toLowerCase();
+    var body = (page.body || '').toLowerCase();
+    terms.forEach(function (t) {
+      if (!t) return;
+      if (title.indexOf(t) >= 0) score += 10;
+      if (headings.indexOf(t) >= 0) score += 5;
+      var bmatches = (body.match(new RegExp(t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g')) || []).length;
+      score += Math.min(bmatches, 5);
+    });
+    return score;
+  }
+  function buildExcerpt(page, terms) {
+    var body = page.body || '';
+    var lower = body.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      var idx = lower.indexOf(terms[i]);
+      if (idx >= 0) {
+        var start = Math.max(0, idx - 40);
+        var end = Math.min(body.length, idx + 120);
+        return (start > 0 ? '…' : '') + body.substring(start, end) + (end < body.length ? '…' : '');
+      }
+    }
+    return page.excerpt || '';
+  }
+  function setupLessonSearch() {
+    var header = document.querySelector('header.site .row');
+    if (!header || header.querySelector('.lesson-search-wrap')) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'lesson-search-wrap';
+    wrap.innerHTML =
+      '<input type="search" placeholder="Search lessons…" aria-label="Search lessons" />' +
+      '<div class="lesson-search-results" role="listbox"></div>';
+    header.appendChild(wrap);
+    var input = wrap.querySelector('input');
+    var results = wrap.querySelector('.lesson-search-results');
+    var closeOnBlur;
+    input.addEventListener('focus', function () { loadSearchIndex(); });
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      if (!q) { results.classList.remove('show'); results.innerHTML = ''; return; }
+      loadSearchIndex().then(function (pages) {
+        var terms = q.split(/\s+/);
+        var scored = pages.map(function (p) { return { p: p, s: scorePage(p, terms) }; })
+          .filter(function (x) { return x.s > 0; })
+          .sort(function (a, b) { return b.s - a.s; })
+          .slice(0, 8);
+        if (!scored.length) {
+          results.innerHTML = '<div class="no-results">No matches.</div>';
+        } else {
+          results.innerHTML = scored.map(function (x) {
+            var excerpt = buildExcerpt(x.p, terms);
+            return '<a href="' + ROOT + x.p.url + '">' +
+              '<div class="result-track">' + (x.p.track || '') + '</div>' +
+              '<div class="result-title">' + x.p.title + '</div>' +
+              '<div class="result-excerpt">' + excerpt.replace(/</g, '&lt;') + '</div>' +
+              '</a>';
+          }).join('');
+        }
+        results.classList.add('show');
+      });
+    });
+    input.addEventListener('blur', function () {
+      closeOnBlur = setTimeout(function () { results.classList.remove('show'); }, 150);
+    });
+    results.addEventListener('mousedown', function () { clearTimeout(closeOnBlur); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) {
+        e.preventDefault();
+        input.focus();
+      }
+      if (e.key === 'Escape') { input.blur(); results.classList.remove('show'); }
+    });
+  }
+
   // ---------- Mobile nav + Tools link injection ----------
   function setupNav() {
     var header = document.querySelector('header.site');
@@ -294,6 +405,8 @@
     setupNav();
     addMethodologyLink();
     setupProvenanceBanner();
+    setupThemeToggle();
+    setupLessonSearch();
     setupLessonExtras();
     decorateLessonLists();
     setupGlossarySearch();

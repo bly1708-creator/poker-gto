@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Solver Browser — Solver School</title>
+<meta name="description" content="Browse verified TexasSolver outputs for postflop spots." />
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body class="no-provenance">
+<header class="site">
+  <div class="container row">
+    <a href="../index.html" class="brand"><span class="chip"></span>Solver School</a>
+    <nav class="site">
+      <a href="../course/index.html">Course</a>
+      <a href="../course/6max/index.html">6-max</a>
+      <a href="../course/heads-up/index.html">Heads-Up</a>
+      <a href="../course/tournaments/index.html">Tournaments</a>
+      <a href="../glossary.html">Glossary</a>
+    </nav>
+  </div>
+</header>
+
+<article class="lesson">
+  <div class="container narrow">
+    <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Tools</a> / Solver Browser</div>
+    <h1>Verified Solver Outputs</h1>
+    <p class="subtitle">
+      Raw TexasSolver runs reproduced in CI. Each spot is defined by a YAML in
+      <code>solver/spots/</code>; the workflow builds TexasSolver, solves, and
+      commits the JSON. Pick a spot below to view the root strategy.
+    </p>
+
+    <div class="solver-spot-picker" id="spot-picker"></div>
+    <div class="solver-spot-view" id="spot-view">
+      <p class="muted">Loading spot list…</p>
+    </div>
+
+    <p class="muted" style="margin-top:32px">
+      Want a new spot solved? Add a YAML to <code>solver/spots/</code> and
+      trigger the <code>Solve spots</code> workflow from GitHub Actions.
+      Output is deterministic for a given config + solver commit.
+    </p>
+  </div>
+</article>
+
+<footer class="site">
+  <div class="container row">
+    <div>© Solver School</div>
+    <div><a href="../methodology.html">Methodology</a> · <a href="../glossary.html">Glossary</a></div>
+  </div>
+</footer>
+<script src="../js/solver-browser.js"></script>
+<script src="../js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+id: 6max-srp-btn-vs-bb-k72r-cbet
+title: "BTN opens, BB calls, flop K72 rainbow — BTN c-bet decision"
+# A narrower, published-style range for a first verified solve. Full BTN open /
+# BB defend are trimmed to the top 40% to keep tree size tractable on CI.
+stacks_bb: 97.5
+pot_bb: 5.5
+board: "Ks,7h,2c"
+oop_range: "22+,A5s+,A7o+,KTs+,KJo+,QTs+,QJo,JTs,T9s,98s,87s,76s"
+ip_range:  "66+,A9s+,AJo+,KTs+,KQo,QTs+,JTs,T9s"
+bet_sizes:
+  flop: [0.33]
+  turn: [0.5]
+  river: [0.75]
+allin_threshold: 0.67
+iterations: 30
+accuracy: 1.0
+# TexasSolver has a threading race with nthreads >= 4 on small trees. Pin to 2.
+threads: 2
+dump_rounds: 1
+use_isomorphism: true
